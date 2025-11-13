@@ -176,7 +176,7 @@
       @endif
 
       <form method="POST" action="{{ route('login') }}">
-    @csrf
+      @csrf
     
     <div>
         <label>Email:</label>
