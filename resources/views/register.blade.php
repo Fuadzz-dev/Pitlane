@@ -193,7 +193,7 @@
 
         <input 
           type="text" 
-          name="phone" 
+          name="no_hp" 
           placeholder="No HP" 
           value="{{ old('phone') }}" 
           required 

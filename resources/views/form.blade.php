@@ -135,19 +135,23 @@
         box-shadow: 0 5px 20px rgba(255, 255, 255, 0.15);
       }
 
-      .suggestion-box {
-        background: #222;
-        color: #ccc;
-        padding: 10px 15px;
+      .alert {
+        padding: 15px;
         border-radius: 6px;
-        margin-bottom: 25px;
-        font-size: 14px;
-        box-shadow: inset 0 0 8px rgba(0,0,0,0.4);
+        margin-bottom: 20px;
+        font-size: 15px;
       }
 
-      .suggestion-box span {
-        color: #00bcd4;
-        font-weight: 600;
+      .alert-success {
+        background: #1b5e20;
+        color: #a5d6a7;
+        border: 1px solid #2e7d32;
+      }
+
+      .alert-error {
+        background: #b71c1c;
+        color: #ef9a9a;
+        border: 1px solid #c62828;
       }
 
       @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
@@ -155,25 +159,56 @@
     </style>
   </head>
   <body>
-    <x-loading-screen />
     <!-- Form -->
     <div class="form-wrapper" id="formWrapper">
       <div class="header">
-        <img src="pistons.png" alt="Logo" />
+        <img src="{{ asset('images/pistons.png') }}" alt="Logo" />
         <h1>Services</h1>
       </div>
       <h2>Repair & Tune Up</h2>
 
-      <form action="service_process.php" method="POST">
+      <!-- Alert Messages -->
+      @if(session('success'))
+        <div class="alert alert-success">
+          {{ session('success') }}
+        </div>
+      @endif
+
+      @if(session('error'))
+        <div class="alert alert-error">
+          {{ session('error') }}
+        </div>
+      @endif
+
+      @if($errors->any())
+        <div class="alert alert-error">
+          <ul style="margin: 0; padding-left: 20px;">
+            @foreach($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+
+      <form action="{{ route('service.store') }}" method="POST">
+        @csrf
+        
         <label for="bengkel">Pilih Bengkel</label>
         <select id="bengkel" name="bengkel" required>
           <option value="">-- Pilih Bengkel --</option>
-          <option>Pitlane Garage</option>
-          <option>SpeedTech Motorworks</option>
-          <option>RPM Garage</option>
-          <option>TorqueZone Performance</option>
-          <option>PowerMax AutoWorks</option>
-          <option>GarageOne Racing</option>
+          @if(isset($bengkel) && count($bengkel) > 0)
+            @foreach($bengkel as $item)
+              <option value="{{ $item->bengkel_id }}">{{ $item->nama_bengkel }}</option>
+            @endforeach
+          @else
+            <!-- Fallback jika database kosong -->
+            <option value="1">Pitlane Garage</option>
+            <option value="2">SpeedTech Motorworks</option>
+            <option value="3">RPM Garage</option>
+            <option value="4">TorqueZone Performance</option>
+            <option value="5">PowerMax AutoWorks</option>
+            <option value="6">GarageOne Racing</option>
+          @endif
         </select>
 
         <label for="tipe">Tipe Motor</label>
@@ -182,6 +217,7 @@
           id="tipe"
           name="tipe"
           placeholder="Masukkan tipe motor..."
+          value="{{ old('tipe') }}"
           required />
 
         <label for="plat">Nomor Plat</label>
@@ -190,42 +226,35 @@
           id="plat"
           name="plat"
           placeholder="Masukkan nomor plat..."
+          value="{{ old('plat') }}"
           required />
 
         <label for="jenis">Jenis Perbaikan</label>
         <select id="jenis" name="jenis" required>
           <option value="">-- Pilih Jenis Perbaikan --</option>
-          <option>Servis rutin</option>
-          <option>Ganti oli</option>
-          <option>Ganti part mesin</option>
-          <option>Tune up</option>
-          <option>Remap ECU</option>
-          <option>Bore up</option>
-          <option>Upgrade CVT</option>
-          <option>Porting polish</option>
-          <option>Overhaul mesin</option>
-          <option>Servis rem</option>
-          <option>Ganti kampas kopling</option>
-          <option>Servis suspensi</option>
-          <option>Ganti aki</option>
-          <option>Servis kelistrikan</option>
-          <option>Servis karburator / injeksi</option>
-          <option>Pengecekan dyno test</option>
+          <option value="Servis rutin" {{ old('jenis') == 'Servis rutin' ? 'selected' : '' }}>Servis rutin</option>
+          <option value="Ganti oli" {{ old('jenis') == 'Ganti oli' ? 'selected' : '' }}>Ganti oli</option>
+          <option value="Ganti part mesin" {{ old('jenis') == 'Ganti part mesin' ? 'selected' : '' }}>Ganti part mesin</option>
+          <option value="Tune up" {{ old('jenis') == 'Tune up' ? 'selected' : '' }}>Tune up</option>
+          <option value="Remap ECU" {{ old('jenis') == 'Remap ECU' ? 'selected' : '' }}>Remap ECU</option>
+          <option value="Bore up" {{ old('jenis') == 'Bore up' ? 'selected' : '' }}>Bore up</option>
+          <option value="Upgrade CVT" {{ old('jenis') == 'Upgrade CVT' ? 'selected' : '' }}>Upgrade CVT</option>
+          <option value="Porting polish" {{ old('jenis') == 'Porting polish' ? 'selected' : '' }}>Porting polish</option>
+          <option value="Overhaul mesin" {{ old('jenis') == 'Overhaul mesin' ? 'selected' : '' }}>Overhaul mesin</option>
+          <option value="Servis rem" {{ old('jenis') == 'Servis rem' ? 'selected' : '' }}>Servis rem</option>
+          <option value="Ganti kampas kopling" {{ old('jenis') == 'Ganti kampas kopling' ? 'selected' : '' }}>Ganti kampas kopling</option>
+          <option value="Servis suspensi" {{ old('jenis') == 'Servis suspensi' ? 'selected' : '' }}>Servis suspensi</option>
+          <option value="Ganti aki" {{ old('jenis') == 'Ganti aki' ? 'selected' : '' }}>Ganti aki</option>
+          <option value="Servis kelistrikan" {{ old('jenis') == 'Servis kelistrikan' ? 'selected' : '' }}>Servis kelistrikan</option>
+          <option value="Servis karburator / injeksi" {{ old('jenis') == 'Servis karburator / injeksi' ? 'selected' : '' }}>Servis karburator / injeksi</option>
+          <option value="Pengecekan dyno test" {{ old('jenis') == 'Pengecekan dyno test' ? 'selected' : '' }}>Pengecekan dyno test</option>
         </select>
-
-        <label for="telp">Nomor Telepon</label>
-        <input
-          type="tel"
-          id="telp"
-          name="telp"
-          placeholder="Masukkan nomor telepon..."
-          required />
 
         <label for="catatan">Catatan Tambahan</label>
         <textarea
           id="catatan"
           name="catatan"
-          placeholder="Tambahkan catatan jika perlu..."></textarea>
+          placeholder="Tambahkan catatan jika perlu...">{{ old('catatan') }}</textarea>
 
         <div class="button-group">
           <button
@@ -234,7 +263,7 @@
             onclick="window.location.href='{{ route('home') }}'">
             ← Kembali ke Halaman Utama
           </button>
-          <button type="submit">Kirim Data Perbaikan</button>
+          <button type="submit" >Kirim Data Perbaikan</button>
         </div>
       </form>
     </div>

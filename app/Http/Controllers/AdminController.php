@@ -8,16 +8,9 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        // Cek apakah user sudah login
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
-        }
-
-        // Cek apakah user adalah admin
         if (!Auth::user()->isAdmin()) {
-            return redirect('/login')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
-        }
-
+            abort(403, 'Unauthorized access');}
+            
         return view('dashboard');
     }
 }

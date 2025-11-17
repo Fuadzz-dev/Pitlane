@@ -80,8 +80,9 @@ class AuthController extends Controller
         $user = User::create([
             'nama' => $validated['nama'],
             'email' => $validated['email'],
-            'phone' => $validated['phone'],
-            'password' => Hash::make($validated['password'])
+            'no_hp' => $validated['phone'],
+            'password' => Hash::make($validated['password']),
+            'role' => 'user'
         ]);
 
         // Redirect ke halaman login dengan pesan sukses
