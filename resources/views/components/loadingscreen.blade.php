@@ -69,6 +69,6 @@
             setTimeout(() => {
                 loading.style.display = 'none';
             }, 1000);
-        }, 1500); // Loading duration: 1.5 detik
+        }, 1000); // Loading duration: 1.5 detik
     });
 </script>

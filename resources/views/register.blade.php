@@ -157,6 +157,7 @@
   </style>
 </head>
 <body>
+<x-loadingscreen></x-loadingscreen>
   <div class="login-container">
     <div class="image-container">
       <!-- Ganti dengan gambar motor kamu -->

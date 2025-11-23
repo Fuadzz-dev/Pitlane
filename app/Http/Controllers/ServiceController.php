@@ -24,10 +24,7 @@ class ServiceController extends Controller
             ->orderBy('nama_bengkel', 'asc')
             ->get();
 
-        // Debug: cek apakah data bengkel ada
-        // dd($bengkel); // Uncomment untuk debug
-
-        return view('service.form', compact('bengkel'));
+        return view('form', compact('bengkel'));
     }
 
     /**
@@ -51,61 +48,49 @@ class ServiceController extends Controller
         ]);
 
         try {
-            // Insert data ke tabel antrian
+            // Ambil atau buat layanan_id berdasarkan jenis perbaikan
+            $layanan = DB::table('layanan')
+                ->where('nama_layanan', $request->jenis)
+                ->first();
+
+            // Jika layanan belum ada, buat baru dengan harga default
+            if (!$layanan) {
+                $layananId = DB::table('layanan')->insertGetId([
+                    'nama_layanan' => $request->jenis,
+                    'deskripsi' => 'Layanan ' . $request->jenis,
+                    'harga' => 0,
+                ]);
+            } else {
+                $layananId = $layanan->layanan_id;
+            }
+
+            // Insert data antrian
             $antrianId = DB::table('antrian')->insertGetId([
                 'user_id' => Auth::id(),
                 'bengkel_id' => $request->bengkel,
+                'layanan_id' => $layananId,
                 'tipe' => $request->tipe,
-                'plat' => strtoupper($request->plat), // Convert plat ke uppercase
+                'plat' => strtoupper($request->plat),
                 'tanggal_pemesanan' => now(),
-                'tanggal_servis' => null,
+                'tanggal_servis' => now()->addDays(1),
                 'status' => 'menunggu',
                 'catatan' => $request->catatan,
-                'created_at' => now(),
-                'updated_at' => now(),
             ]);
 
-            // Ambil nama bengkel untuk notifikasi
-            $bengkel = DB::table('bengkel')->where('bengkel_id', $request->bengkel)->first();
-
-            return redirect()->route('service.success', ['id' => $antrianId])
+            // ✅ REDIRECT KE FORM DENGAN SUCCESS MESSAGE
+            return redirect()->route('service.create')
                 ->with('success', 'Pendaftaran servis berhasil! Nomor antrian Anda: #' . $antrianId);
 
         } catch (\Exception $e) {
             return back()
                 ->withInput()
-                ->with('error', 'Gagal mendaftarkan servis. Silakan coba lagi.');
+                ->with('error', 'Gagal mendaftarkan servis: ' . $e->getMessage());
         }
-    }
-
-    /**
-     * Halaman sukses setelah pendaftaran
-     */
-    public function success($id)
-    {
-        $antrian = DB::table('antrian')
-            ->join('bengkel', 'antrian.bengkel_id', '=', 'bengkel.bengkel_id')
-            ->join('users', 'antrian.user_id', '=', 'users.user_id')
-            ->where('antrian.antrian_id', $id)
-            ->where('antrian.user_id', Auth::id())
-            ->select(
-                'antrian.*',
-                'bengkel.nama_bengkel',
-                'bengkel.alamat',
-                'bengkel.no_hp as bengkel_hp',
-                'users.nama'
-            )
-            ->first();
-
-        if (!$antrian) {
-            return redirect()->route('home')->with('error', 'Data antrian tidak ditemukan');
-        }
-
-        return view('service.success', compact('antrian'));
     }
 
     /**
      * Lihat semua antrian user yang sedang login
+     * (Opsional - jika tetap ingin ada fitur ini)
      */
     public function myQueue()
     {
@@ -116,6 +101,6 @@ class ServiceController extends Controller
             ->orderBy('antrian.tanggal_pemesanan', 'desc')
             ->get();
 
-        return view('service.my-queue', compact('antrians'));
+        return view('my-queue', compact('antrians'));
     }
 }

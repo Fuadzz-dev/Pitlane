@@ -225,7 +225,7 @@
     </style>
   </head>
   <body>
-      
+      <x-loadingscreen></x-loadingscreen>
       <x-navbar></x-navbar>
 
     <!-- Hero -->

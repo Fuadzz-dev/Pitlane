@@ -42,7 +42,7 @@ Route::get('/gallery', function () {
     Route::get('/service', [ServiceController::class, 'create'])->name('service');
     Route::post('/service/store', [ServiceController::class, 'store'])->name('service.store');
     Route::get('/service/success/{id}', [ServiceController::class, 'success'])->name('service.success');
-    Route::get('/my-queue', [ServiceController::class, 'myQueue'])->name('service.myQueue');
+    Route::get('/my-queue', [ServiceController::class, 'myQueue'])->name('myQueue');
 
 
 Route::get('/motor', function () {
