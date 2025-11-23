@@ -1,40 +1,44 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Illuminate\Routing\Controller as BaseController;
-
 
 class AuthController extends Controller
 {
-     // Tampilkan halaman login 
+    /**
+     * Tampilkan halaman login 
+     */
     public function showLogin()
     {
         if (Auth::check()) {
-            // Cek role saat sudah login
             return Auth::user()->isAdmin() 
-                ? redirect('/admin/dashboard') 
-                : redirect('/home');
+                ? redirect()->route('admin.dashboard') 
+                : redirect()->route('user.home');
         }
-        return view('login');
+        return view('auth.login');
     }
 
-    // Tampilkan halaman register
+    /**
+     * Tampilkan halaman register
+     */
     public function showRegister()
     {
         if (Auth::check()) {
             return Auth::user()->isAdmin() 
-                ? redirect('/admin/dashboard') 
-                : redirect('/home');
+                ? redirect()->route('admin.dashboard') 
+                : redirect()->route('user.home');
         }
-        return view('register');
+        return view('auth.register');
     }
 
-    // Proses login dengan redirect berdasarkan role
+    /**
+     * Proses login dengan redirect berdasarkan role
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -47,10 +51,10 @@ class AuthController extends Controller
             
             // Redirect berdasarkan role
             if (Auth::user()->isAdmin()) {
-                return redirect()->route('dashboard');
+                return redirect()->route('admin.dashboard');
             }
             
-            return redirect()->intended('home');
+            return redirect()->route('user.home');
         }
 
         return back()->withErrors([
@@ -58,8 +62,9 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-
-    // Proses register - HANYA SATU METHOD
+    /**
+     * Proses register
+     */
     public function register(Request $request)
     {
         $validated = $request->validate([
@@ -85,11 +90,12 @@ class AuthController extends Controller
             'role' => 'user'
         ]);
 
-        // Redirect ke halaman login dengan pesan sukses
         return redirect()->route('login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
-    // Proses logout
+    /**
+     * Proses logout
+     */
     public function logout(Request $request)
     {
         Auth::logout();
@@ -97,10 +103,5 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         
         return redirect('/')->with('success', 'Anda berhasil logout');
-    }
-
-    protected function redirectTo(Request $request): ?string
-    {
-        return $request->expectsJson() ? null : route('login');
     }
 }
