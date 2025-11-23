@@ -23,7 +23,8 @@ class AdminMiddleware
 
         // Cek apakah user adalah admin
         if (!Auth::user()->isAdmin()) {
-            abort(403, 'Unauthorized access. Admin only.');
+            Auth::logout(); // logout paksa
+        return redirect()->route('login')->with('error', 'Unauthorized access. Admin only.');
         }
 
         return $next($request);

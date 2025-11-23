@@ -310,14 +310,6 @@
               <span>#001</span>
               Yamaha R15 - Ganti Oli
             </div>
-            <div class="queue-item">
-              <span>#002</span>
-              Vario 150 - Tune Up
-            </div>
-            <div class="queue-item">
-              <span>#003</span>
-              Ninja 250 - Remap ECU
-            </div>
           </div>
         </div>
       </div>

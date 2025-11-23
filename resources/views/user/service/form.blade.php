@@ -438,7 +438,7 @@
           <button
             type="button"
             class="back-btn"
-            onclick="window.location.href='{{ route('home') }}'">
+            onclick="redirectToHome()">
             ← Kembali ke Halaman Utama
           </button>
           <button type="submit" id="submitBtn">
@@ -498,7 +498,7 @@
 
       // Redirect function
       function redirectToHome() {
-        window.location.href = "{{ route('home') }}";
+        window.location.href = "{{ Route('user.home') }}";
       }
 
       // Auto redirect when modal is closed

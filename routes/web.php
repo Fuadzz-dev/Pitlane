@@ -45,52 +45,68 @@ Route::middleware('auth')->group(function () {
 // ============================================
 // ADMIN ROUTES (Role: Admin)
 // ============================================
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     
-    // Dashboard
+    // Dashboard (tanpa prefix admin di URL)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Users Management
-    Route::prefix('users')->name('users.')->group(function () {
-        Route::get('/', [AdminUserController::class, 'index'])->name('index');
-        Route::get('/create', [AdminUserController::class, 'create'])->name('create');
-        Route::post('/store', [AdminUserController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [AdminUserController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [AdminUserController::class, 'update'])->name('update');
-        Route::delete('/{id}', [AdminUserController::class, 'destroy'])->name('destroy');
-    });
-    
-    // Services Management
-    Route::prefix('services')->name('services.')->group(function () {
-        Route::get('/', [AdminServiceController::class, 'index'])->name('index');
-        Route::get('/{id}', [AdminServiceController::class, 'show'])->name('show');
-        Route::put('/{id}/status', [AdminServiceController::class, 'updateStatus'])->name('update-status');
-    });
-    
-    // Queue Management
-    Route::prefix('queue')->name('queue.')->group(function () {
-        Route::get('/', [AdminQueueController::class, 'index'])->name('index');
-        Route::put('/{id}/update', [AdminQueueController::class, 'update'])->name('update');
-    });
-    
-    // Workshops Management
-    Route::prefix('workshops')->name('workshops.')->group(function () {
-        Route::get('/', [AdminWorkshopController::class, 'index'])->name('index');
-        Route::get('/create', [AdminWorkshopController::class, 'create'])->name('create');
-        Route::post('/store', [AdminWorkshopController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [AdminWorkshopController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [AdminWorkshopController::class, 'update'])->name('update');
-        Route::delete('/{id}', [AdminWorkshopController::class, 'destroy'])->name('destroy');
+    // Admin Routes dengan prefix
+    Route::prefix('admin')->name('admin.')->group(function () {
+        
+        // Users Management
+        Route::prefix('users')->name('users.')->group(function () {
+            Route::get('/', [AdminUserController::class, 'index'])->name('index');
+            Route::get('/create', [AdminUserController::class, 'create'])->name('create');
+            Route::post('/store', [AdminUserController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [AdminUserController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [AdminUserController::class, 'update'])->name('update');
+            Route::delete('/{id}', [AdminUserController::class, 'destroy'])->name('destroy');
+        });
+        
+        // Motorcycles Management (ADDED)
+        Route::prefix('motorcycles')->name('motorcycles.')->group(function () {
+            Route::get('/', function() { 
+                return view('admin.motorcycles.index'); 
+            })->name('index');
+        });
+        
+        // Services Management
+        Route::prefix('services')->name('services.')->group(function () {
+            Route::get('/', [AdminServiceController::class, 'index'])->name('index');
+            Route::get('/{id}', [AdminServiceController::class, 'show'])->name('show');
+            Route::put('/{id}/status', [AdminServiceController::class, 'updateStatus'])->name('update-status');
+        });
+        
+        // Queue Management
+        Route::prefix('queue')->name('queue.')->group(function () {
+            Route::get('/', [AdminQueueController::class, 'index'])->name('index');
+            Route::put('/{id}/update', [AdminQueueController::class, 'update'])->name('update');
+        });
+        
+        // Workshops Management
+        Route::prefix('workshops')->name('workshops.')->group(function () {
+            Route::get('/', [AdminWorkshopController::class, 'index'])->name('index');
+            Route::get('/create', [AdminWorkshopController::class, 'create'])->name('create');
+            Route::post('/store', [AdminWorkshopController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [AdminWorkshopController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [AdminWorkshopController::class, 'update'])->name('update');
+            Route::delete('/{id}', [AdminWorkshopController::class, 'destroy'])->name('destroy');
+        });
+        
+        // Settings (ADDED)
+        Route::get('/settings', function() { 
+            return view('admin.settings'); 
+        })->name('settings');
     });
 });
 
 // ============================================
 // USER ROUTES (Role: User)
 // ============================================
-Route::middleware(['auth', 'user'])->name('user.')->group(function () {
+Route::middleware(['auth', 'user'])->group(function () {
     
-    // Home
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    // Home (tanpa prefix user)
+    Route::get('/home', [HomeController::class, 'index'])->name('user.home');
     
     // Gallery
     Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
@@ -99,28 +115,15 @@ Route::middleware(['auth', 'user'])->name('user.')->group(function () {
     Route::get('/motor', [MotorController::class, 'index'])->name('motor');
     
     // Bengkel
-    Route::prefix('bengkel')->name('bengkel.')->group(function () {
-        Route::get('/', [BengkelController::class, 'index'])->name('index');
-        Route::get('/{id}', [BengkelController::class, 'show'])->name('show');
-    });
+    Route::get('/bengkel', [BengkelController::class, 'index'])->name('bengkel');
+    Route::get('/bengkel/{id}', [BengkelController::class, 'show'])->name('bengkel.show');
     
     // Service
-    Route::prefix('service')->name('service.')->group(function () {
-        Route::get('/', [UserServiceController::class, 'create'])->name('create');
-        Route::post('/store', [UserServiceController::class, 'store'])->name('store');
-        Route::get('/success/{id}', [UserServiceController::class, 'success'])->name('success');
-    });
+    Route::get('/service', [UserServiceController::class, 'create'])->name('service');
+    Route::post('/service/store', [UserServiceController::class, 'store'])->name('service.store');
+    Route::get('/service/success/{id}', [UserServiceController::class, 'success'])->name('service.success');
     
     // Queue
-    Route::prefix('queue')->name('queue.')->group(function () {
-        Route::get('/my-queue', [UserQueueController::class, 'myQueue'])->name('my-queue');
-        Route::get('/{id}', [UserQueueController::class, 'detail'])->name('detail');
-    });
-});
-
-// ============================================
-// FALLBACK ROUTE (404)
-// ============================================
-Route::fallback(function () {
-    return response()->view('errors.404', [], 404);
+    Route::get('/queue/my-queue', [UserQueueController::class, 'myQueue'])->name('queue.my-queue');
+    Route::get('/queue/{id}', [UserQueueController::class, 'detail'])->name('queue.detail');
 });

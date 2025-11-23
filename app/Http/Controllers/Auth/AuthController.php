@@ -17,8 +17,8 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             return Auth::user()->isAdmin() 
-                ? redirect()->route('admin.dashboard') 
-                : redirect()->route('user.home');
+                ? redirect()->Route('admin.dashboard') 
+                : redirect()->Route('user.home');
         }
         return view('auth.login');
     }
@@ -30,8 +30,8 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             return Auth::user()->isAdmin() 
-                ? redirect()->route('admin.dashboard') 
-                : redirect()->route('user.home');
+                ? redirect()->Route('admin.dashboard') 
+                : redirect()->Route('user.home');
         }
         return view('auth.register');
     }
@@ -51,10 +51,10 @@ class AuthController extends Controller
             
             // Redirect berdasarkan role
             if (Auth::user()->isAdmin()) {
-                return redirect()->route('admin.dashboard');
+                return redirect()->Route('admin.dashboard');
             }
             
-            return redirect()->route('user.home');
+            return redirect()->Route('user.home');
         }
 
         return back()->withErrors([
