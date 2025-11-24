@@ -16,7 +16,6 @@ return new class extends Migration
             $table->integer('bengkel_id')->nullable()->index('fk_mekanik_bengkel');
             $table->string('nama_mekanik', 100);
             $table->string('no_hp', 20)->nullable();
-            $table->string('spesialisasi', 100)->nullable();
         });
     }
 

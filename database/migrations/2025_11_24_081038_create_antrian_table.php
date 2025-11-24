@@ -15,7 +15,6 @@ return new class extends Migration
             $table->integer('antrian_id', true);
             $table->integer('user_id')->index('user_id');
             $table->integer('layanan_id')->index('layanan_id');
-            $table->integer('admin_id')->nullable()->index('admin_id');
             $table->integer('bengkel_id')->nullable()->index('fk_antrian_bengkel');
             $table->string('tipe', 100);
             $table->string('plat', 20);

@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     
     // Dashboard (tanpa prefix admin di URL)
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     
     // Admin Routes dengan prefix
     Route::prefix('admin')->name('admin.')->group(function () {
