@@ -372,22 +372,14 @@
         
         <label for="bengkel">Pilih Bengkel</label>
         <select id="bengkel" name="bengkel" required>
-          <option value="">-- Pilih Bengkel --</option>
-          @if(isset($bengkel) && count($bengkel) > 0)
-            @foreach($bengkel as $item)
-              <option value="{{ $item->bengkel_id }}" {{ old('bengkel') == $item->bengkel_id ? 'selected' : '' }}>
-                {{ $item->nama_bengkel }}
-              </option>
-            @endforeach
-          @else
-            <option value="1">Pitlane Garage</option>
-            <option value="2">SpeedTech Motorworks</option>
-            <option value="3">RPM Garage</option>
-            <option value="4">TorqueZone Performance</option>
-            <option value="5">PowerMax AutoWorks</option>
-            <option value="6">GarageOne Racing</option>
-          @endif
+        <option value="">-- Pilih Bengkel --</option>
+        @foreach($bengkel as $item)
+        <option value="{{ $item->bengkel_id }}" {{ old('bengkel') == $item->bengkel_id ? 'selected' : '' }}>
+        {{ $item->nama_bengkel }}
+        </option>
+        @endforeach
         </select>
+        
 
         <label for="tipe">Tipe Motor</label>
         <input
@@ -407,7 +399,16 @@
           value="{{ old('plat') }}"
           required />
 
-        <label for="jenis">Jenis Perbaikan</label>
+          <label for="jenis">Jenis Perbaikan</label>
+<select id="jenis" name="jenis" required>
+  <option value="">-- Pilih Jenis Perbaikan --</option>
+  @foreach($layanan as $item)
+    <option value="{{ $item->layanan_id }}" {{ old('jenis') == $item->layanan_id ? 'selected' : '' }}>
+      {{ $item->nama_layanan }}
+    </option>
+  @endforeach
+</select>
+        {{-- <label for="jenis">Jenis Perbaikan</label>
         <select id="jenis" name="jenis" required>
           <option value="">-- Pilih Jenis Perbaikan --</option>
           <option value="Servis rutin" {{ old('jenis') == 'Servis rutin' ? 'selected' : '' }}>Servis rutin</option>
@@ -426,7 +427,7 @@
           <option value="Servis kelistrikan" {{ old('jenis') == 'Servis kelistrikan' ? 'selected' : '' }}>Servis kelistrikan</option>
           <option value="Servis karburator / injeksi" {{ old('jenis') == 'Servis karburator / injeksi' ? 'selected' : '' }}>Servis karburator / injeksi</option>
           <option value="Pengecekan dyno test" {{ old('jenis') == 'Pengecekan dyno test' ? 'selected' : '' }}>Pengecekan dyno test</option>
-        </select>
+        </select> --}}
 
         <label for="catatan">Catatan Tambahan</label>
         <textarea

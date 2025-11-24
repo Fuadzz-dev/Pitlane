@@ -196,7 +196,7 @@
           type="text" 
           name="no_hp" 
           placeholder="No HP" 
-          value="{{ old('phone') }}" 
+          value="{{ old('no_hp') }}" 
           required 
         />
         <!-- @error('phone')

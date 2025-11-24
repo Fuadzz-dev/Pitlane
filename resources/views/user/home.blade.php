@@ -306,11 +306,20 @@
         <h2>Service Queue</h2>
         <div class="queue-box">
           <div id="queueList">
-            <div class="queue-item">
-              <span>#001</span>
-              Yamaha R15 - Ganti Oli
-            </div>
-          </div>
+  @forelse ($queues as $q)
+    <div class="queue-item">
+      <span>#{{ $q->antrian_id }}</span>
+      {{ $q->tipe }} — {{ $q->plat }}
+      <span style="font-weight: 700; color: {{ $q->status == 'diproses' ? '#3aabdc' : '#ffc107' }};">
+        ({{ strtoupper($q->status) }})
+      </span>
+    </div>
+  @empty
+    <div class="queue-item text-center">
+      Belum ada antrian berjalan
+    </div>
+  @endforelse
+</div>  
         </div>
       </div>
     </section>

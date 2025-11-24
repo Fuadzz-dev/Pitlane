@@ -17,11 +17,12 @@ class HomeController extends Controller
         $user = Auth::user();
 
         // Ambil antrian aktif user
-        $active_queue = DB::table('antrian')
-            ->where('user_id', Auth::id())
-            ->whereIn('status', ['menunggu', 'diproses'])
-            ->count();
+        $queues = DB::table('antrian')
+        ->where('user_id', Auth::id())
+        ->whereIn('status', ['menunggu', 'diproses'])
+        ->orderBy('antrian_id', 'asc')
+        ->get();
 
-        return view('user.home', compact('user', 'active_queue'));
+        return view('user.home', compact('user', 'queues'));
     }
 }

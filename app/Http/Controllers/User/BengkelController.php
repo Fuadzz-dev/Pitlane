@@ -31,6 +31,17 @@ class BengkelController extends Controller
             ->where('bengkel_id', $id)
             ->get();
 
-        return view('user.bengkel-detail', compact('workshop', 'mechanics'));
+        return view('user.bengkel', compact('workshop', 'mechanics'));
     }
+
+    /**
+     * Tampilkan halaman map bengkel
+     */
+    public function map()
+{
+    $bengkel = DB::table('bengkel')
+        ->get();
+
+    return view('user.bengkel', compact('workshops'));
+}
 }

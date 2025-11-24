@@ -146,39 +146,39 @@
          WORKSHOP LIST (alamat sumber publik)
          Tambahkan / edit alamat jika kamu punya data lebih lengkap.
          ========================== */
-      const workshops = [
-        {
-          name: "Helios Garage",
-          address: "Jl. Toddopuli Raya Timur No.84, Borong, Manggala, Makassar",
-          phone: "0811-4484-017",
-          source: "Roojai / listing",
-        },
-        {
-          name: "Planet Motor",
-          address: "Jl. Toddopuli Raya Timur No.171, Borong, Manggala, Makassar",
-          phone: "0822-9038-5761",
-          source: "Local listing",
-        },
-        {
-          name: "Bengkel JDM (SPBU Toddopuli)",
-          address: "Jl. Toddopuli Raya Timur No.7A (SPBU Toddopuli), Makassar",
-          phone: "",
-          source: "Facebook listing",
-        },
-        {
-          name: "Adhimotorsport",
-          address: "Jalan Toddopuli Raya A2 No.3-4, Makassar",
-          phone: "081343922258",
-          source: "Instagram",
-        },
-        {
-          name: "Karya Mandiri (workshop)",
-          address: "Jl. Toddopuli 10 Baru, Borong, Manggala, Makassar",
-          phone: "",
-          source: "Roojai / listing",
-        }
-        // — kalau punya bengkel lain, tambahkan di sini
-      ];
+        const workshops = @json($workshops)
+      //   {
+      //     name: "Helios Garage",
+      //     address: "Jl. Toddopuli Raya Timur No.84, Borong, Manggala, Makassar",
+      //     phone: "0811-4484-017",
+      //     source: "Roojai / listing",
+      //   },
+      //   {
+      //     name: "Planet Motor",
+      //     address: "Jl. Toddopuli Raya Timur No.171, Borong, Manggala, Makassar",
+      //     phone: "0822-9038-5761",
+      //     source: "Local listing",
+      //   },
+      //   {
+      //     name: "Bengkel JDM (SPBU Toddopuli)",
+      //     address: "Jl. Toddopuli Raya Timur No.7A (SPBU Toddopuli), Makassar",
+      //     phone: "",
+      //     source: "Facebook listing",
+      //   },
+      //   {
+      //     name: "Adhimotorsport",
+      //     address: "Jalan Toddopuli Raya A2 No.3-4, Makassar",
+      //     phone: "081343922258",
+      //     source: "Instagram",
+      //   },
+      //   {
+      //     name: "Karya Mandiri (workshop)",
+      //     address: "Jl. Toddopuli 10 Baru, Borong, Manggala, Makassar",
+      //     phone: "",
+      //     source: "Roojai / listing",
+      //   }
+      //   // — kalau punya bengkel lain, tambahkan di sini
+      // ];
 
       /* =========================
          Map init: pusat Toddopuli (perkiraan)
@@ -234,69 +234,87 @@
         }
       }
 
-      // Render workshop list in sidebar and add markers
-      async function renderWorkshops(filter = '') {
-        listEl.innerHTML = '<div class="muted">Memuat bengkel…</div>';
-        markers.clearLayers();
+// Render workshop list in sidebar and add markers
+async function renderWorkshops(filter = '') {
+  listEl.innerHTML = '<div class="muted">Memuat bengkel…</div>';
+  markers.clearLayers();
 
-        const toShow = workshops.filter(w => w.name.toLowerCase().includes(filter.toLowerCase()) || w.address.toLowerCase().includes(filter.toLowerCase()));
+  const toShow = workshops.filter(w =>
+    w.nama_bengkel.toLowerCase().includes(filter.toLowerCase())
+  );
 
-        if (toShow.length === 0) {
-          listEl.innerHTML = '<div class="muted">Tidak ada bengkel ditemukan.</div>';
-          return;
-        }
+  if (toShow.length === 0) {
+    listEl.innerHTML = '<div class="muted">Tidak ada bengkel ditemukan.</div>';
+    return;
+  }
 
-        listEl.innerHTML = ''; // reset
-        for (const w of toShow) {
-          // create list item
-          const item = document.createElement('div');
-          item.className = 'workshop-item';
-          item.innerHTML = `<strong>${w.name}</strong><div class="muted">${w.address}</div><div class="mt-1"><small class="badge bg-secondary badge-category">${w.source}</small> ${w.phone ? '<small class="ms-2">• ' + w.phone + '</small>' : ''}</div>`;
-          listEl.appendChild(item);
+  listEl.innerHTML = ''; // reset
+  for (const w of toShow) {
+    // create list item
+    const item = document.createElement('div');
+    item.className = 'workshop-item';
 
-          // find cached / geocode
-          const geo = await geocodeAddress(w.address);
-          if (geo) {
-            const marker = L.marker([geo.lat, geo.lon]);
-            const popupHtml =
-              `<div style="min-width:200px">
-                 <strong>${w.name}</strong><div style="margin:6px 0">${w.address}</div>
-                 ${w.phone ? `<div>📞 ${w.phone}</div>` : ''}
-                 <div style="margin-top:8px">
-                   <a class="btn btn-sm btn-outline-primary" target="_blank" href="${mapsLink(w.address)}">Buka di Google Maps</a>
-                 </div>
-               </div>`;
+    item.innerHTML = `
+      <div>
+        <h4 class="mb-1">${w.nama_bengkel}</h4>
+        <p class="mb-1">${w.alamat}</p>
+        <p class="mb-1">📞 ${w.no_hp ?? '-'}</p>
+        <p class="mb-2">🕒 ${w.jam_operasional ?? '-'}</p>
+        <button onclick="window.open('${w.link_alamat}', '_blank')" class="btn btn-sm btn-primary">
+          Buka di Google Maps
+        </button>
+      </div>
+    `;
 
-            marker.bindPopup(popupHtml);
-            markers.addLayer(marker);
+    listEl.appendChild(item);
 
-            // klik list -> buka popup & pan
-            item.addEventListener('click', () => {
-              map.setView([geo.lat, geo.lon], 16, { animate:true });
-              marker.openPopup();
-            });
-          } else {
-            // geocode gagal
-            const warn = document.createElement('div');
-            warn.className = 'muted small';
-            warn.textContent = ' (Lokasi belum ditemukan otomatis — klik untuk buka alamat di Google Maps)';
-            item.appendChild(warn);
-            item.addEventListener('click', () => {
-              window.open(mapsLink(w.address), '_blank');
-            });
-          }
+    // find cached / geocode
+    const geo = await geocodeAddress(w.alamat);
+    if (geo) {
+      const marker = L.marker([geo.lat, geo.lon]);
 
-          // polite delay so we don't fire Nominatim all at once
-          await new Promise(r => setTimeout(r, 300));
-        }
+      const popupHtml = `
+        <div style="min-width:220px">
+          <strong>${w.nama_bengkel}</strong><br>
+          ${w.alamat}<br>
+          📞 ${w.no_hp ?? '-'}<br>
+          🕒 ${w.jam_operasional ?? '-'}<br>
+          <a href="${w.link_alamat}" target="_blank" class="btn btn-sm btn-primary mt-2">
+            Buka di Google Maps
+          </a>
+        </div>
+      `;
 
-        // fit bounds if markers exist
-        const all = markers.getLayers();
-        if (all.length) {
-          const group = L.featureGroup(all);
-          map.fitBounds(group.getBounds().pad(0.25));
-        }
-      }
+      marker.bindPopup(popupHtml);
+      markers.addLayer(marker);
+
+      // klik list -> buka popup & pan
+      item.addEventListener('click', () => {
+        map.setView([geo.lat, geo.lon], 16, { animate:true });
+        marker.openPopup();
+      });
+    } else {
+      // geocode gagal
+      const warn = document.createElement('div');
+      warn.className = 'muted small';
+      warn.textContent = ' (Lokasi belum ditemukan otomatis — klik untuk buka Google Maps)';
+      item.appendChild(warn);
+      item.addEventListener('click', () => {
+        window.open(w.link_alamat, '_blank');
+      });
+    }
+
+    // polite delay — biar tidak spam geocode
+    await new Promise(r => setTimeout(r, 300));
+  }
+
+  // fit bounds if markers exist
+  const all = markers.getLayers();
+  if (all.length) {
+    const group = L.featureGroup(all);
+    map.fitBounds(group.getBounds().pad(0.25));
+  }
+}
 
       // initial render
       renderWorkshops();

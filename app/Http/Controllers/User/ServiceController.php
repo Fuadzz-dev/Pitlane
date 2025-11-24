@@ -19,7 +19,14 @@ class ServiceController extends Controller
             ->orderBy('nama_bengkel', 'asc')
             ->get();
 
-        return view('user.service.form', compact('bengkel'));
+            // Ambil data layanan
+        $layanan = DB::table('layanan')
+            ->select('layanan_id', 'nama_layanan', 'harga')
+            ->orderBy('nama_layanan', 'asc')
+            ->get();
+
+
+        return view('user.service.form', compact('bengkel','layanan'));
     }
 
     /**
