@@ -1,129 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PITLANE - Motorcycles</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PITLANE – Motor List</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet" />
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Poppins", sans-serif;
-        }
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #0e0e0e, #1a1a1a);
+        color: #fff;
+        padding-top: 70px;
+      }
 
-        body {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            min-height: 100vh;
-            color: #fff;
-        }
+      /* ==== CARD MOTOR ==== */
+      .motor-card {
+        background: rgba(255,255,255,0.1);
+        border-radius: 20px;
+        padding: 20px;
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 100px 40px 40px;
-        }
+        box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+        transition: all 0.35s ease;
+      }
 
-        .page-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
+      .motor-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      }
 
-        .page-header h1 {
-            font-size: 48px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
+      .motor-img {
+        width: 100%;
+        height: 210px;
+        object-fit: contain;
+        margin-bottom: 15px;
+        filter: drop-shadow(0 5px 10px rgba(0,0,0,0.4));
+      }
 
-        .page-header p {
-            color: #888;
-            font-size: 18px;
-        }
+      .btn-details {
+        background: linear-gradient(135deg, #0047ff, #002f9e);
+        border: none;
+        padding: 10px 22px;
+        border-radius: 20px;
+        color: white;
+        font-weight: 600;
+        transition: 0.3s ease;
+        float: right;
+      }
 
-        .motors-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
+      .btn-details:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 18px rgba(0,98,255,0.5);
+      }
 
-        .motor-card {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
+      h2.section-title {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 70px;
+      }
 
-        .motor-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .motor-image {
-            width: 100%;
-            height: 200px;
-            background: rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-        }
-
-        .motor-info {
-            padding: 20px;
-        }
-
-        .motor-info h3 {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
-
-        .motor-info p {
-            color: #888;
-            font-size: 14px;
-        }
-
-        .back-btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            text-decoration: none;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background: rgba(255,255,255,0.2);
-        }
+      .back-btn {
+        position:absolute;
+        top:60px;
+        left:150px;
+        background:rgba(255,255,255,0.1);
+        border:1px solid rgba(255,255,255,0.2);
+        color:#fff;
+        padding:12px 24px;
+        border-radius:8px;
+        text-decoration:none;
+        display:inline-flex;
+        align-items:center;
+        gap:8px;
+        transition:all 0.3s ease;
+        backdrop-filter:blur(10px);
+      }
+      .back-btn:hover {
+        background:rgba(255,255,255,0.2);
+        color:#fff;
+        transform:translateX(-4px);
+      }
     </style>
-</head>
-<body>
-    <x-loadingscreen></x-loadingscreen>
-    
-    <div class="container">
-        <a href="{{ route('home') }}" class="back-btn">← Back to Home</a>
-        
-        <div class="page-header">
-            <h1>Motorcycles</h1>
-            <p>Browse Our Collection of Supported Motorcycles</p>
-        </div>
+  </head>
+  <body>
+    <!-- Title -->
+    <h2 class="section-title">List Motor</h2>
+    <a href="http://127.0.0.1:8000/home" class="back-btn">← Back to Home</a>
 
-        <div class="motors-grid">
-            @forelse($motors ?? [] as $motor)
-            <div class="motor-card">
-                <div class="motor-image">🏍️</div>
-                <div class="motor-info">
-                    <h3>{{ $motor->merk }} {{ $motor->model }}</h3>
-                    <p>Year: {{ $motor->tahun }}</p>
-                </div>
-            </div>
-            @empty
-            <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
-                <p style="font-size: 18px; color: #888;">No motorcycles data available yet.</p>
-            </div>
-            @endforelse
+    <!-- Motor List -->
+    <div class="container">
+      <div class="row g-4">
+        <!-- MOTORS (EXAMPLE) -->
+        @foreach ($motors as $motor)
+      <div class="col-md-4">
+        <div class="motor-card">
+          <img src="data:image/jpeg;base64,{{ base64_encode($motor->foto) }}" class="motor-img"/>
+          <h4>{{ $motor->nama_kendaraan }}</h4>
+          <div style="clear: both;"></div>
         </div>
-    </div>
-</body>
+      </div>
+    @endforeach
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

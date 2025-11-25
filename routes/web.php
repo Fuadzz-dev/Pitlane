@@ -14,7 +14,7 @@ use App\Http\Controllers\Admin\WorkshopController as AdminWorkshopController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\User\ServiceController as UserServiceController;
 use App\Http\Controllers\User\QueueController as UserQueueController;
-use App\Http\Controllers\User\GalleryController;
+use App\Http\Controllers\User\HistoryController;
 use App\Http\Controllers\User\MotorController;
 use App\Http\Controllers\User\BengkelController;
 
@@ -108,8 +108,8 @@ Route::middleware(['auth', 'user'])->group(function () {
     // Home (tanpa prefix user)
     Route::get('/home', [HomeController::class, 'index'])->name('user.home');
     
-    // Gallery
-    Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery');
+    // History
+    Route::get('/history', [HistoryController::class, 'index'])->name('history');
     
     // Motor
     Route::get('/motor', [MotorController::class, 'index'])->name('motor');

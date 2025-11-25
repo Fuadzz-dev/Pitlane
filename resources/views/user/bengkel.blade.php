@@ -90,7 +90,7 @@
       <section id="hero" class="hero">
         <div class="container">
           <h1>Map Bengkel</h1>
-          <a href="http://127.0.0.1:8000/home" class="back-btn">
+          <a href="{{ Route('user.home') }}" class="back-btn">
             ← Back to Home
           </a>
         </div>
@@ -114,11 +114,6 @@
               </div>
 
               <hr />
-              <div class="small muted">
-                Sumber data (contoh): Roojai / Moservice / listing lokal &
-                social media. Data alamat bisa berubah — klik marker untuk buka
-                Google Maps.
-              </div>
             </div>
 
             <!-- map -->
@@ -132,7 +127,7 @@
 
     <footer class="text-center py-3">
       <small>
-        ©2025 PITLANE — Maps Toddopuli. Data publik, disusun otomatis.
+        ©2025 PITLANE.
       </small>
     </footer>
 

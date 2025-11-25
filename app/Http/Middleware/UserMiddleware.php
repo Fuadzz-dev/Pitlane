@@ -23,7 +23,7 @@ class UserMiddleware
 
         // Cek apakah user bukan admin (khusus untuk user biasa)
         if (Auth::user()->isAdmin()) {
-            return redirect()->route('dashboard')->with('info', 'Admin tidak dapat mengakses halaman user');
+            return redirect()->Route('dashboard')->with('info', 'Admin tidak dapat mengakses halaman user');
         }
 
         return $next($request);

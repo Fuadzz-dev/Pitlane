@@ -262,10 +262,10 @@
         <h2>Layanan</h2>
         <div class="row g-4 justify-content-center">
           <div class="col-md-5 col-lg-5">
-            <a href="{{ route('gallery') }}" class="text-decoration-none">
+            <a href="{{ Route('history') }}" class="text-decoration-none">
               <div class="service-card" style="background-image: url('{{ asset('img/1.jpg') }}');">
                 <div class="overlay"></div>
-                <h3>GALLERY</h3>
+                <h3>HISTORY</h3>
               </div>
             </a>
           </div>
