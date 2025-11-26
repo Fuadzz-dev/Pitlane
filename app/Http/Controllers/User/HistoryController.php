@@ -13,15 +13,21 @@ class HistoryController extends Controller
         // Ambil riwayat servis berdasarkan user yang login
         $riwayat = DB::table('riwayat')
             ->join('bengkel', 'riwayat.bengkel_id', '=', 'bengkel.bengkel_id')
-            ->join('mekanik', 'riwayat.mekanik_id', '=', 'mekanik.mekanik_id')
+            ->join('antrian', 'riwayat.antrian_id', '=', 'antrian.antrian_id')
+            ->leftJoin('mekanik', 'riwayat.mekanik_id', '=', 'mekanik.mekanik_id')
+            ->leftJoin('layanan', 'antrian.layanan_id', '=', 'layanan.layanan_id')
             ->where('riwayat.user_id', Auth::id())
             ->select(
                 'riwayat.riwayat_id',
-                'mekanik.nama_mekanik',
-                'bengkel.nama_bengkel',
                 'riwayat.tanggal_selesai',
                 'riwayat.total_biaya',
-                'riwayat.keterangan'
+                'riwayat.keterangan',
+                'mekanik.nama_mekanik',
+                'bengkel.nama_bengkel',
+                'antrian.tipe',
+                'antrian.plat',
+                'antrian.status',
+                'layanan.nama_layanan'
             )
             ->orderBy('riwayat.tanggal_selesai', 'desc')
             ->get();
