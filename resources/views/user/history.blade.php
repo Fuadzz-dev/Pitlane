@@ -4,11 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Riwayat Perbaikan</title>
-
-<!-- Poppins Font -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-<!-- ======= STYLE ======= -->
 <style>
     body {
         margin: 0;
@@ -17,7 +14,6 @@
         color: white;
     }
 
-    /* ==== TITLE ==== */
     .page-title {
         margin-top: 60px;
         text-align: center;
@@ -27,28 +23,28 @@
     }
 
     .back-btn {
-        position:absolute;
-        top:60px;
-        left:150px;
-        background:rgba(255,255,255,0.1);
-        border:1px solid rgba(255,255,255,0.2);
-        color:#fff;
-        padding:12px 24px;
-        border-radius:8px;
-        text-decoration:none;
-        display:inline-flex;
-        align-items:center;
-        gap:8px;
-        transition:all 0.3s ease;
-        backdrop-filter:blur(10px);
-    }
-    .back-btn:hover {
-        background:rgba(255,255,255,0.2);
-        color:#fff;
-        transform:translateX(-4px);
+        position: absolute;
+        top: 60px;
+        left: 150px;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
     }
 
-    /* ==== HISTORY LIST ==== */
+    .back-btn:hover {
+        background: rgba(255,255,255,0.2);
+        color: #fff;
+        transform: translateX(-4px);
+    }
+
     .history-container {
         margin: 40px auto;
         width: 92%;
@@ -63,8 +59,6 @@
         border-radius: 18px;
         border: 1px solid rgba(255,255,255,0.22);
         transition: 0.3s ease;
-        transform: translateY(0);
-        opacity: 0;
         animation: fadeIn 0.8s ease forwards;
     }
 
@@ -84,6 +78,25 @@
         margin-bottom: 5px;
     }
 
+    .status-badge {
+        display: inline-block;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+
+    .status-selesai {
+        background: #4caf50;
+        color: white;
+    }
+
+    .status-batal {
+        background: #f44336;
+        color: white;
+    }
+
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(20px); }
         to { opacity: 1; transform: translateY(0); }
@@ -94,55 +107,37 @@
         font-size: 20px;
         opacity: 0.7;
         margin-top: 40px;
+        padding: 40px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 12px;
     }
 </style>
 </head>
 
 <body>
+    <h1 class="page-title">Riwayat Perbaikan</h1>
+    <a href="{{ route('user.home') }}" class="back-btn">← Back to Home</a>
 
-<!-- ================= TITLE ================= -->
-<h1 class="page-title">Riwayat Perbaikan</h1>
-<a href="{{ Route('user.home') }}" class="back-btn">← Back to Home</a>
-
-
-<!-- ================= HISTORY LIST ================= -->
-<div class="history-container" id="historyList"></div>
-
-
-<!-- ========== SCRIPT UNTUK AMBIL HISTORY OTOMATIS ========== -->
-<script>
-    // History yang dikirim dari FORM di website lain
-    // Format penyimpanan:
-    // localStorage.setItem("service_history", JSON.stringify(dataArray));
-
-    function loadHistory() {
-        const container = document.getElementById("historyList");
-        const data = JSON.parse(localStorage.getItem("service_history")) || [];
-
-        if (data.length === 0) {
-            container.innerHTML = `<div class="empty">Belum ada riwayat perbaikan.</div>`;
-            return;
-        }
-
-        data.reverse().forEach((item, index) => {
-            const card = document.createElement("div");
-            card.className = "history-card";
-            card.style.animationDelay = `${index * 0.1}s`;
-
-            card.innerHTML = `
-                <div class="card-title">${item.judul}</div>
-                <div class="card-sub">📍 Bengkel: <b>${item.bengkel}</b></div>
-                <div class="card-sub">🛠️ Layanan: ${item.layanan}</div>
-                <div class="card-sub">📅 Tanggal: ${item.tanggal}</div>
-                <div class="card-sub">📝 Catatan: ${item.catatan}</div>
-            `;
-
-            container.appendChild(card);
-        });
-    }
-
-    loadHistory();
-</script>
-
+    <div class="history-container">
+        @forelse($riwayat as $item)
+            <div class="history-card">
+                <div class="card-title">{{ $item->tipe }} ({{ $item->plat }})</div>
+                <div class="card-sub">📍 Bengkel: <b>{{ $item->nama_bengkel }}</b></div>
+                <div class="card-sub">🛠️ Layanan: {{ $item->nama_layanan ?? '-' }}</div>
+                <div class="card-sub">👨‍🔧 Mekanik: {{ $item->nama_mekanik ?? '-' }}</div>
+                <div class="card-sub">📅 Tanggal Selesai: {{ $item->tanggal_selesai ? \Carbon\Carbon::parse($item->tanggal_selesai)->format('d M Y, H:i') : '-' }}</div>
+                <div class="card-sub">💰 Total Biaya: Rp {{ number_format($item->total_biaya ?? 0, 0, ',', '.') }}</div>
+                <div class="card-sub">📝 Keterangan: {{ $item->keterangan ?? '-' }}</div>
+                <span class="status-badge status-{{ $item->status }}">
+                    {{ strtoupper($item->status) }}
+                </span>
+            </div>
+        @empty
+            <div class="empty">
+                <p>Belum ada riwayat perbaikan.</p>
+                <small>Data riwayat akan muncul setelah servis selesai atau dibatalkan.</small>
+            </div>
+        @endforelse
+    </div>
 </body>
 </html>

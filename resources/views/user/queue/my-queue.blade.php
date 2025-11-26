@@ -272,7 +272,7 @@
 <body>
     <div class="container">
         <!-- Back Link -->
-        <a href="{{ route('home') }}" class="back-link">
+        <a href="{{ Route('home') }}" class="back-link">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
             </svg>
@@ -285,7 +285,7 @@
                 <h1>Antrian Saya</h1>
                 <p>Daftar servis motor yang telah Anda daftarkan</p>
             </div>
-            <a href="{{ route('service.create') }}" class="btn">
+            <a href="{{ Route('service.create') }}" class="btn">
                 + Daftar Servis Baru
             </a>
         </div>
@@ -312,7 +312,7 @@
                 </svg>
                 <h3>Belum Ada Antrian</h3>
                 <p>Anda belum mendaftarkan servis motor.<br>Mulai daftarkan sekarang untuk mendapatkan layanan terbaik!</p>
-                <a href="{{ route('service.create') }}" class="btn">
+                <a href="{{ Route('service.create') }}" class="btn">
                     Daftar Servis Sekarang
                 </a>
             </div>

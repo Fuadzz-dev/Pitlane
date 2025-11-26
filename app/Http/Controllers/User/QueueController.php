@@ -33,13 +33,13 @@ class QueueController extends Controller
             ->where('antrian.antrian_id', $id)
             ->where('antrian.user_id', Auth::id())
             ->select('antrian.*', 'bengkel.nama_bengkel', 'bengkel.alamat', 
-                     'bengkel.no_hp as bengkel_no_hp', 'layanan.nama_layanan')
+                    'bengkel.no_hp as bengkel_no_hp', 'layanan.nama_layanan')
             ->first();
 
         if (!$antrian) {
             abort(404);
         }
 
-        return view('user.queue.detail', compact('antrian'));
+        return view('user.queue.my-queue', compact('antrian'));
     }
 }
