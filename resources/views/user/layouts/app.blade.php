@@ -24,15 +24,12 @@
     <x-loadingscreen />
     
     <!-- Navbar -->
-    @include('user.layouts.navbar')
+    @include('components.navbar')
 
     <!-- Main Content -->
     <main>
         @yield('content')
     </main>
-
-    <!-- Footer -->
-    @include('user.layouts.footer')
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

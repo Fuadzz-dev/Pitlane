@@ -25,4 +25,10 @@ class HomeController extends Controller
 
         return view('user.home', compact('user', 'queues'));
     }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        return view('user.profile', compact('user'));
+    }
 }

@@ -29,7 +29,7 @@
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
       overflow: hidden;
       width: 900px;
-      height: 500px;
+      height: 650px;
       animation: fadeIn 1s ease;
     }
 
@@ -161,12 +161,12 @@
   <div class="login-container">
     <div class="image-container">
       <!-- Ganti dengan gambar motor kamu -->
-      <img src="Untitled-13.png" alt="Motorbike Image" />
+      <img src="{{ asset('img/progile.jpg') }}" alt="Motorbike Image" />
     </div>
 
     <div class="form-container">
       <!-- Logo di atas tulisan SIGN IN -->
-      <img src="gerigi.png" alt="Logo" class="logo" />
+      <img src="{{ asset('img/gerigi.png') }}" alt="Logo" class="logo" />
       <h2>Login</h2>
       <p>Welcome Back Broh</p>
 

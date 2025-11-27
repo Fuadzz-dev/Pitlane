@@ -19,7 +19,10 @@ class QueueController extends Controller
             ->orderBy('antrian.tanggal_pemesanan', 'asc')
             ->get();
 
-        return view('admin.queue.index', compact('queues'));
+            // Ambil daftar mekanik
+    $mekaniks = DB::table('mekanik')->get();
+
+        return view('admin.queue.index', compact('queues','mekaniks'));
     }
 
     public function update(Request $request, $id)

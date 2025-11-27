@@ -146,4 +146,7 @@ Route::middleware(['auth', 'user'])->group(function () {
     // Queue
     Route::get('/queue/my-queue', [UserQueueController::class, 'myQueue'])->name('queue.my-queue');
     Route::get('/queue/{id}', [UserQueueController::class, 'detail'])->name('queue.detail');
+
+    // Profile
+    Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 });

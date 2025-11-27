@@ -36,7 +36,7 @@
         /* ==== ABOUT ==== */
         #about {
           padding: 100px 0;
-          background-color: #5b5b5b;
+          background-color: #ffffff;
         }
 
         .about-title {
@@ -207,7 +207,7 @@
         /* ==== CONTACT & FOOTER ==== */
         #contact {
           padding: 100px 0;
-          background-color: #5b5b5b;
+          background-color: #ffffff;
         }
 
         footer {
@@ -328,10 +328,24 @@
     <section id="contact">
       <div class="container text-center">
         <h2 class="mb-4">Contact Us</h2>
-        <p>For questions or service booking, reach us at:</p>
-        <a href="mailto:pitlane.racing@gmail.com" class="btn btn-dark mt-3">
-          Email Us
+        {{-- WhatsApp --}}
+        <a href="https://wa.me/6285715408651?text={{ urlencode('Apakah ada jadwal yang kosong untuk saya perbaikan motor') }}"
+           target="_blank"
+           class="btn btn-success mt-3 me-2">
+            <i class="bi bi-whatsapp"></i> WhatsApp
         </a>
+
+        {{-- Telepon --}}
+        <a href="tel:085715408651"
+           class="btn btn-primary mt-3 me-2">
+            <i class="bi bi-telephone"></i> Call Us
+        </a>
+
+        {{-- Email
+        <a href="mailto:muh.fuadrifai@gmail.com?subject={{ urlencode('Pertanyaan Servis') }}&body={{ urlencode('Halo, saya ingin menanyakan mengenai servis motor.') }}"
+           class="btn btn-danger mt-3">
+            <i class="bi bi-envelope"></i> Email
+        </a> --}}
       </div>
     </section>
 
@@ -344,5 +358,202 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Chatbot Button -->
+    <div id="chatbot-btn" class="chatbot-btn">
+      <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Chatbot Modal -->
+    <div id="chatbot-modal" class="chatbot-modal">
+      <div class="chatbot-header">
+        <span>PITLANE Assistant</span>
+        <button id="close-chatbot" class="close-btn">&times;</button>
+      </div>
+      <div id="chatbot-messages" class="chatbot-messages"></div>
+      <div class="chatbot-input">
+        <input type="text" id="chatbot-input" placeholder="Type your message..." />
+        <button id="send-btn">Send</button>
+      </div>
+    </div>
+
+    <style>
+      .chatbot-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #5c5c5c 0%, ##121212 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+      .chatbot-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      }
+      .chatbot-modal {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        width: 350px;
+        height: 500px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        display: none;
+        flex-direction: column;
+        z-index: 1001;
+        overflow: hidden;
+      }
+      .chatbot-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: bold;
+      }
+      .close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+      }
+      .chatbot-messages {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+        background: #f8f9fa;
+      }
+      .message {
+        margin-bottom: 10px;
+        padding: 10px 15px;
+        border-radius: 15px;
+        max-width: 80%;
+      }
+      .message.user {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        margin-left: auto;
+        text-align: right;
+      }
+      .message.bot {
+        background: #e9ecef;
+        color: #333;
+      }
+      .chatbot-input {
+        display: flex;
+        padding: 15px;
+        background: white;
+        border-top: 1px solid #dee2e6;
+      }
+      .chatbot-input input {
+        flex: 1;
+        border: 1px solid #dee2e6;
+        border-radius: 20px;
+        padding: 10px 15px;
+        margin-right: 10px;
+      }
+      .chatbot-input button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 10px 20px;
+        cursor: pointer;
+      }
+      .chatbot-input button:hover {
+        opacity: 0.9;
+      }
+    </style>
+
+    <script>
+      const API_KEY = 'AIzaSyB-CzsRUXFml2mZyUefACrq4OqVa549bzQ';
+      const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=' + API_KEY;
+
+      document.getElementById('chatbot-btn').addEventListener('click', function() {
+        document.getElementById('chatbot-modal').style.display = 'flex';
+      });
+
+      document.getElementById('close-chatbot').addEventListener('click', function() {
+        document.getElementById('chatbot-modal').style.display = 'none';
+      });
+
+      document.getElementById('send-btn').addEventListener('click', sendMessage);
+      document.getElementById('chatbot-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          sendMessage();
+        }
+      });
+
+      function sendMessage() {
+        const input = document.getElementById('chatbot-input');
+        const message = input.value.trim();
+        if (message === '') return;
+
+        addMessage(message, 'user');
+        input.value = '';
+
+        // Show typing indicator
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'message bot';
+        typingDiv.innerHTML = '<em>Typing...</em>';
+        document.getElementById('chatbot-messages').appendChild(typingDiv);
+
+        // System prompt for motorcycle damage recognition
+        const systemPrompt = "You are an expert mechanic specializing in motorcycle damage recognition. Based on the user's description of symptoms, noises, or issues with their motorcycle, identify possible damages, causes, and suggest basic troubleshooting steps. Respond in Indonesian language. If the input is not related to motorcycles, politely redirect to motorcycle topics.";
+
+        fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: systemPrompt + "\n\nUser input: " + message
+              }]
+            }]
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Remove typing indicator
+          document.getElementById('chatbot-messages').removeChild(typingDiv);
+
+          if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+            const botMessage = data.candidates[0].content.parts[0].text;
+            addMessage(botMessage, 'bot');
+          } else {
+            addMessage('Sorry, I couldn\'t process your request. Please try again.', 'bot');
+          }
+        })
+        .catch(error => {
+          // Remove typing indicator
+          document.getElementById('chatbot-messages').removeChild(typingDiv);
+          addMessage('Sorry, there was an error. Please try again later.', 'bot');
+          console.error('Error:', error);
+        });
+      }
+
+      function addMessage(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}`;
+        messageDiv.textContent = text;
+        document.getElementById('chatbot-messages').appendChild(messageDiv);
+        document.getElementById('chatbot-messages').scrollTop = document.getElementById('chatbot-messages').scrollHeight;
+      }
+    </script>
   </body>
 </html>

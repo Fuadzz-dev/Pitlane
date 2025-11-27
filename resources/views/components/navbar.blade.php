@@ -4,7 +4,7 @@
         <div class="nav-left">
           <a href="#hero" class="logo">
             <div class="logo-icon">
-              <img src="{{ asset('img/logo.jpg') }}" alt="" style="width: 140px;" />
+              <img src="{{ asset('img/l.jpg') }}" alt="" style="width: 140px;" />
             </div>
           </a>
           <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
@@ -34,7 +34,7 @@
               class="profile"
               onclick="toggleProfile()" />
             <div class="profile-dropdown" id="profileDropdown">
-              <a href="#" class="dropdown-item">Your profile</a>
+              <a href="{{ route('profile') }}" class="dropdown-item">Your profile</a>
               <a href="#" class="dropdown-item" onclick="handleLogout(event)">Logout</a>
             </div>
           </div>

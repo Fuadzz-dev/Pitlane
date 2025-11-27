@@ -86,12 +86,14 @@
             </div>
 
             <div class="form-group" id="mekanikField" style="display: none;">
-                <label>Mekanik (Opsional)</label>
-                <select name="mekanik_id">
-                    <option value="">-- Pilih Mekanik --</option>
-                    <!-- Populate from database -->
-                </select>
-            </div>
+    <label>Mekanik (Opsional)</label>
+    <select name="mekanik_id">
+        <option value="">-- Pilih Mekanik --</option>
+        @foreach ($mekaniks as $m)
+            <option value="{{ $m->mekanik_id }}">{{ $m->nama_mekanik }}</option>
+        @endforeach
+    </select>
+</div>
 
             <div class="form-group" id="biayaField" style="display: none;">
                 <label>Total Biaya</label>
