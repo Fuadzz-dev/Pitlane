@@ -49,15 +49,16 @@
 
     /* Tombol update/delete */
     .btn-action {
-        padding: 8px 16px;
-        background: linear-gradient(90deg, #ee5d5d, #d63535);
-        border-radius: 10px;
-        color: white;
-        font-size: 14px;
-        text-decoration: none;
-        font-weight: 500;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
+    padding: 7px 18px;
+    background: linear-gradient(90deg, #ee5d5d, #da2929);
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 600;
+    font-size: 13px;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    margin-right: 4px;
+}
 </style>
 
 <div class="content-section">

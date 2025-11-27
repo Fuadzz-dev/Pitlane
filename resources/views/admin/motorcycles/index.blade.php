@@ -1,14 +1,14 @@
 @extends('admin.layouts.App')
 
-@section('title', 'Motorcycles Management')
-@section('page-title', 'Motorcycles Management')
+@section('title', 'Motor Management')
+@section('page-title', 'Motor Management')
 
 @section('content')
 <div class="content-section">
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <h2>Registered Motorcycles</h2>
-        <a href="{{ route('admin.motorcycles.create') }}" class="btn-primary">+ Add New Motorcycle</a>
+        <h2>Motor</h2>
+        <a href="{{ route('admin.motorcycles.create') }}" class="btn-primary">+ Tambah Motor</a>
     </div>
 
     <div class="motorcycle-grid">
@@ -22,11 +22,6 @@
             <h3>{{ $motor->nama_kendaraan }}</h3>
             <div class="card-actions">
                 <a href="{{ route('admin.motorcycles.edit', $motor->kendaraan_id) }}" class="btn-edit">Edit</a>
-                <form action="{{ route('admin.motorcycles.destroy', $motor->kendaraan_id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn-delete">Delete</button>
-                </form>
             </div>
         </div>
         @endforeach

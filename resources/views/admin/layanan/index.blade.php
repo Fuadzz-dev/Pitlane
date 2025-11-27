@@ -1,13 +1,17 @@
 @extends('admin.layouts.App')
 
+@section('title', 'Layanan Management')
+@section('page-title', 'Layanan Management')
+
+
 @section('content')
 <div class="content-section">
-    <h2 style="margin-bottom: 20px; color:#fff; font-weight:600;">Daftar Layanan</h2>
+    <h2 style="margin-bottom: 20px; color:#000000; font-weight:600;">Daftar Layanan</h2>
 
     <div style="margin-bottom: 20px; text-align:right;">
         <a href="{{ route('admin.layanan.create') }}"
            style="padding:10px 22px;
-                  background:#667eea;
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                   color:white;
                   border-radius:12px;
                   text-decoration:none;

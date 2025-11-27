@@ -1,5 +1,9 @@
 @extends('admin.layouts.App')
 
+@section('title', 'Bengkel Management')
+@section('page-title', 'Bengkel Management')
+
+
 @section('content')
 <style>
     /* Container tabel */
@@ -77,7 +81,7 @@
     <div style="margin-bottom: 20px; text-align:right;">
         <a href="{{ Route('admin.workshops.create') }}"
             style="padding:10px 20px;
-                  background:#667eea;
+                  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                   color:white;
                   border-radius:12px;
                   text-decoration:none;
@@ -119,7 +123,7 @@
                     <td>
                         <a href="{{ Route('admin.workshops.edit', $w->bengkel_id) }}"
                             class="btn-action">
-                            Update
+                            Edit
                         </a>
                     </td>
                 </tr>

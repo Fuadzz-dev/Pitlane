@@ -12,14 +12,14 @@ class MekanikController extends Controller
     // INDEX — Menampilkan list mekanik
     public function index()
     {
-        $mekanik = Mekanik::with('workshop')->get(); // Relasi ke Workshop
+        $mekanik = Mekanik::with('workshop')->get();
         return view('admin.mekanik.index', compact('mekanik'));
     }
 
     // CREATE — Form tambah mekanik
     public function create()
     {
-        $workshops = Workshop::all();   // Untuk dropdown nama bengkel
+        $workshops = Workshop::all();
         return view('admin.mekanik.create', compact('workshops'));
     }
 
@@ -29,13 +29,13 @@ class MekanikController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'nomor_hp' => 'required|string|max:20',
-            'workshop_id' => 'required|exists:workshops,id'
+            'workshop_id' => 'required|exists:bengkel,bengkel_id'
         ]);
 
         Mekanik::create([
-            'nama' => $request->nama,
-            'nomor_hp' => $request->nomor_hp,
-            'workshop_id' => $request->workshop_id
+            'nama_mekanik' => $request->nama,  
+            'no_hp' => $request->nomor_hp,
+            'bengkel_id' => $request->workshop_id
         ]);
 
         return redirect()->route('admin.mekanik.index')->with('success', 'Data mekanik berhasil ditambahkan');
@@ -55,7 +55,7 @@ class MekanikController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'nomor_hp' => 'required|string|max:20',
-            'workshop_id' => 'required|exists:workshops,id'
+            'workshop_id' => 'required|exists:bengkel,bengkel_id' 
         ]);
 
         $mekanik = Mekanik::where('mekanik_id', $id)->firstOrFail();

@@ -17,7 +17,7 @@
     </a>
     
     <a href="{{ route('admin.layanan.index') }}" class="menu-item {{ request()->routeIs('admin.layanan.*') ? 'active' : '' }}">
-        🔧 Services
+        🔧 Layanan
     </a>
     
     <a href="{{ route('admin.workshops.index') }}" class="menu-item {{ request()->routeIs('admin.workshops.*') ? 'active' : '' }}">

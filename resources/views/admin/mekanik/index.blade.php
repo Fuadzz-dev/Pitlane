@@ -1,103 +1,120 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.App')
+
+@section('title', 'Mekanik Management')
+@section('page-title', 'Mekanik Management')
+
 
 @section('content')
 
 <style>
-    .page-title {
-        font-size: 26px;
-        margin-bottom: 15px;
-        font-weight: bold;
+    /* Container tabel */
+    .table-container {
+        width: 100%;
+        overflow-x: auto;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.05);
+        padding: 10px;
     }
 
-    .btn-add {
-        background: #111;
-        color: #fff;
-        padding: 8px 15px;
-        border-radius: 6px;
-        text-decoration: none;
-        font-size: 14px;
-        margin-bottom: 18px;
-        display: inline-block;
-    }
-
-    .table-wrapper table {
+    /* Tabel */
+    table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 10px;
-        background: #fff;
-        border-radius: 8px;
+        color: #f8f8f8;
+        background: rgba(255,255,255,0.05);
+        border-radius: 12px;
         overflow: hidden;
     }
 
-    .table-wrapper th {
-        background: #f4f4f4;
-        padding: 12px;
+    /* Header */
+    thead tr th {
+        padding: 14px;
         text-align: left;
         font-weight: 600;
+        background: linear-gradient(90deg, #6a5acd, #6a67d8, #5b6ee1);
+        color: #fff;
     }
 
-    .table-wrapper td {
-        padding: 10px 12px;
-        border-bottom: 1px solid #eee;
+    /* Isi tabel */
+    tbody tr {
+        background: rgba(255,255,255,0.07);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
-    .btn-edit {
-        background: #3b82f6;
+    tbody tr td {
+        padding: 14px;
+        color: #ddd;
+        font-size: 15px;
+    }
+
+    /* Hover */
+    tbody tr:hover {
+        background: rgba(255,255,255,0.12);
+    }
+
+    /* Tombol Edit */
+    .btn-action {
+        padding: 8px 16px;
+        background: linear-gradient(90deg, #5d8dee, #6d65e8);
+        border-radius: 10px;
         color: white;
-        padding: 6px 12px;
-        border-radius: 6px;
+        font-size: 14px;
         text-decoration: none;
-        font-size: 12px;
-        margin-right: 4px;
+        font-weight: 500;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
-    .btn-delete {
-        background: #dc2626;
+    /* Tombol Tambah */
+    .btn-add {
+        padding: 10px 20px;
+        background: #667eea;
         color: white;
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 12px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .btn-delete:hover {
-        opacity: 0.8;
+        border-radius: 12px;
+        text-decoration: none;
+        font-weight: 500;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
 </style>
 
-<div class="dashboard">
-    <h1 class="page-title">👥 Daftar Mekanik</h1>
+<div class="content-section">
+    <h2 style="margin-bottom: 20px;">Daftar Mekanik</h2>
 
-    <a href="{{ Route('admin.mekanik.create') }}" class="btn-add">➕ Tambah Mekanik</a>
+    <div style="margin-bottom: 20px; text-align:right; ">
+        <a href="{{ Route('admin.mekanik.create') }}" class="btn-add" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">+ Tambah Mekanik</a>
+    </div>
 
-    <div class="table-wrapper">
+    <div class="table-container">
         <table>
             <thead>
                 <tr>
                     <th>Nama Mekanik</th>
                     <th>No HP</th>
                     <th>Bengkel</th>
-                    <th>Aksi</th>
+                    <th style="width:150px;">Aksi</th>
                 </tr>
             </thead>
+
             <tbody>
-                @forelse($mekanik as $mechanic)
+                @forelse($mekanik as $m)
                 <tr>
-                    <td>{{ $mechanic->nama_mekanik }}</td>
-                    <td>{{ $mechanic->no_hp }}</td>
-                    <td>{{ $mechanic->workshop->nama_bengkel ?? '-' }}</td>
+                    <td>{{ $m->nama_mekanik }}</td>
+                    <td>{{ $m->no_hp }}</td>
+                    <td>{{ $m->workshop->nama_bengkel ?? '-' }}</td>
                     <td>
-                        <a href="{{ route('admin.mekanik.edit', $mechanic->mekanik_id) }}" class="btn-edit">✏️ Edit</a>
+                        <a href="{{ route('admin.mekanik.edit', $m->mekanik_id) }}" class="btn-action">
+                            Edit
+                        </a>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" style="text-align: center; padding: 15px; color: #777;">Belum ada data
-                        mekanik.</td>
+                    <td colspan="4" style="text-align:center; padding:20px; color:white;">
+                        Belum ada data mekanik.
+                    </td>
                 </tr>
                 @endforelse
             </tbody>
+
         </table>
     </div>
 </div>

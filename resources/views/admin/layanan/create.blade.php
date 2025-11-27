@@ -1,29 +1,27 @@
 @extends('admin.layouts.App')
-
-@section('title', 'Tambah Layanan')
-@section('page-title', 'Tambah Layanan')
-
 @section('content')
 
-<div class="form-container">
-    <form action="{{ route('admin.services.store') }}" method="POST">
+<div class="form-wrapper">
+    <h2 class="form-title">➕ Tambah Layanan</h2>
+
+    <form action="{{ route('admin.layanan.store') }}" method="POST">
         @csrf
         
         <div class="input-group">
             <label>Nama Layanan</label>
-            <input type="text" name="nama_layanan" value="{{ old('nama_layanan') }}" required>
+            <input type="text" name="nama_layanan" value="{{ old('nama_layanan') }}" placeholder="Masukkan nama layanan" required>
             @error('nama_layanan') <small class="error">{{ $message }}</small> @enderror
         </div>
 
         <div class="input-group">
             <label>Harga</label>
-            <input type="number" name="harga" value="{{ old('harga') }}" required>
+            <input type="number" name="harga" value="{{ old('harga') }}" placeholder="Masukkan harga layanan" required>
             @error('harga') <small class="error">{{ $message }}</small> @enderror
         </div>
 
         <div class="btn-area">
-            <a href="{{ route('admin.services.index') }}" class="btn-cancel">Kembali</a>
-            <button type="submit" class="btn-submit">Simpan</button>
+            <a href="{{ route('admin.layanan.index') }}" class="btn-cancel">Cancel</a>
+            <button type="submit" class="btn-submit">Save</button>
         </div>
 
     </form>
@@ -33,74 +31,94 @@
 
 @section('styles')
 <style>
-.form-container {
-    padding: 25px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 20px;
-    backdrop-filter: blur(10px);
-    width: 100%;
-    max-width: 550px;
-    margin: auto;
+/* background full page */
+body {
+    background: linear-gradient(135deg, #5b4bff, #915aff);
 }
 
+/* container glass */
+.form-wrapper {
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+    padding: 40px 55px;
+    border-radius: 28px;
+    backdrop-filter: blur(12px);
+    width: 90%;
+    max-width: 1050px;
+    margin: 35px auto;
+    color: #fff;
+}
+
+/* title */
+.form-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 35px;
+}
+
+/* form input */
 .input-group {
-    margin-bottom: 18px;
+    margin-bottom: 30px;
 }
 
 .input-group label {
-    color: #fff;
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: block;
 }
 
 .input-group input {
     width: 100%;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 18px;
+    border-radius: 12px;
     border: none;
-    margin-top: 6px;
-    background: rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.22);
+    outline: none;
     color: #fff;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .error {
     color: #ff7b7b;
-    font-size: 12px;
+    font-size: 13px;
 }
 
+/* button area */
 .btn-area {
-    margin-top: 25px;
+    margin-top: 40px;
     display: flex;
-    justify-content: space-between;
+    gap: 18px;
+}
+
+.btn-cancel {
+    background: rgba(255,255,255,0.25);
+    padding: 14px 32px;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: .2s;
+}
+
+.btn-cancel:hover {
+    background: rgba(255,255,255,0.35);
 }
 
 .btn-submit {
-    padding: 10px 28px;
+    padding: 14px 36px;
     background: linear-gradient(135deg, #6fa8ff, #517bff);
+    border-radius: 12px;
     border: none;
     color: #fff;
-    font-weight: 600;
-    border-radius: 10px;
     cursor: pointer;
+    font-weight: 700;
+    font-size: 18px;
     transition: .25s;
 }
 
 .btn-submit:hover {
     background: linear-gradient(135deg, #5a94ff, #4066ff);
-}
-
-.btn-cancel {
-    padding: 10px 28px;
-    border-radius: 10px;
-    border: 2px solid #6fa8ff;
-    color: #fff;
-    font-weight: 600;
-    transition: .25s;
-}
-
-.btn-cancel:hover {
-    background: rgba(255,255,255,0.12);
 }
 </style>
 @endsection

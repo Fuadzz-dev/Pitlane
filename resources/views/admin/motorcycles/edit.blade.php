@@ -4,7 +4,7 @@
 @section('page-title', 'Edit Motorcycle')
 
 @section('content')
-<div class="edit-workshop-container">
+<div class="edit-motorcycle-container">
     <h2>Edit Motorcycle</h2>
 
     <form action="{{ route('admin.motorcycles.update', $motorcycle->kendaraan_id) }}" method="POST" enctype="multipart/form-data">
@@ -18,92 +18,140 @@
         <input type="file" name="foto" accept="image/*">
 
         @if($motorcycle->foto)
-            <p>Current Photo:</p>
+            <p style="margin: 10px 0;">Foto Saat Ini:</p>
             <img src="data:image/jpeg;base64,{{ base64_encode($motorcycle->foto) }}" alt="Motor Photo" class="current-photo">
         @endif
 
         <div class="form-buttons">
-            <button type="submit" class="update">Update</button>
-            <a href="{{ route('admin.motorcycles.index') }}" class="button cancel">Cancel</a>
+            <button type="submit" class="btn-save">Simpan Perubahan</button>
+            <a href="{{ route('admin.motorcycles.index') }}" class="btn-cancel">Batal</a>
         </div>
     </form>
+
+    <form action="{{ route('admin.motorcycles.destroy', $motorcycle->kendaraan_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus motor ini?')">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn-delete">Hapus Motor</button>
+    </form>
 </div>
+@endsection
 
 @section('styles')
 <style>
-    .edit-workshop-container {
-        max-width: 500px;
-        margin: 40px auto;
-        background: rgba(255,255,255,0.15);
-        backdrop-filter: blur(15px);
-        border-radius: 20px;
-        padding: 30px 40px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        border: 1px solid rgba(255,255,255,0.3);
+    body {
+        background: linear-gradient(135deg, #7a5fff, #7158e2, #9b59b6);
+        background-size: cover;
+        min-height: 100vh;
+        padding: 30px 0;
+    }
+
+    .edit-motorcycle-container {
+        max-width: 750px;
+        margin: auto;
+        padding: 45px 55px;
+        border-radius: 22px;
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(14px);
+        border: 1px solid rgba(255,255,255,0.25);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.25);
         color: #fff;
     }
 
-    .edit-workshop-container h2 {
-        margin-bottom: 30px;
-        font-size: 28px;
+    .edit-motorcycle-container h2 {
         text-align: center;
         color: #f1c40f;
+        font-size: 34px;
+        font-weight: 700;
+        margin-bottom: 35px;
     }
 
     label {
-        display: block;
+        font-size: 16px;
         font-weight: 500;
         margin-bottom: 8px;
+        display: block;
+        color: #f7f7f7;
     }
 
     input {
         width: 100%;
-        padding: 12px;
-        border-radius: 12px;
-        border: 1px solid rgba(255,255,255,0.3);
+        padding: 15px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.4);
         background: rgba(255,255,255,0.1);
         color: #fff;
-        margin-bottom: 20px;
+        font-size: 15px;
+        margin-bottom: 22px;
+        transition: .3s;
+    }
+
+    input:focus {
+        border-color: #f1c40f;
+        background: rgba(255,255,255,0.18);
+        outline: none;
     }
 
     .current-photo {
-        width: 200px;
-        border-radius: 12px;
-        display: block;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        width: 260px;
+        border-radius: 14px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.4);
     }
 
     .form-buttons {
         display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
+        justify-content: flex-start;
+        gap: 15px;
+        margin-top: 10px;
     }
 
-    .update {
+    .btn-save,
+    .btn-cancel {
+        padding: 13px 32px;
+        border-radius: 13px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        text-decoration: none;
+        transition: .25s;
+    }
+
+    .btn-save {
         background: #f1c40f;
         color: #fff;
-        border: none;
-        padding: 12px 25px;
-        border-radius: 12px;
-        cursor: pointer;
-        flex: 1;
-        margin-right: 10px;
     }
+    .btn-save:hover { background: #d4ac0d; }
 
-    .update:hover {
-        background: #d4ac0d;
-    }
-
-    .button.cancel {
+    .btn-cancel {
         background: #ccc;
         color: #333;
-        padding: 12px 25px;
-        border-radius: 12px;
-        text-decoration: none;
-        flex: 1;
-        text-align: center;
     }
+    .btn-cancel:hover { background: #bdbcbc; }
+
+    hr {
+        border: none;
+        border-bottom: 1px solid rgba(255,255,255,0.3);
+        margin: 30px 0 20px;
+    }
+
+    .btn-delete {
+    margin-top: 20px;
+    margin-left: auto;
+    padding: 13px 28px;
+    border-radius: 13px;
+    background: #e74c3c;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 5px 18px rgba(231,76,60,0.5);
+    transition: .25s;
+}
+.btn-delete:hover {
+    background: #c0392b;
+}
+
 </style>
-@endsection
 @endsection

@@ -17,4 +17,3 @@ class Mekanik extends Model
         return $this->belongsTo(Workshop::class, 'bengkel_id', 'bengkel_id');
     }
 }
-
