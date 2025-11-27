@@ -6,9 +6,11 @@ use App\Http\Controllers\Auth\AuthController;
 // Admin Controllers
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
-use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
+use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\QueueController as AdminQueueController;
 use App\Http\Controllers\Admin\WorkshopController as AdminWorkshopController;
+use App\Http\Controllers\Admin\MotorcycleController;
+use App\Http\Controllers\Admin\MekanikController;
 
 // User Controllers
 use App\Http\Controllers\User\HomeController;
@@ -65,17 +67,24 @@ Route::middleware(['auth', 'admin'])->group(function () {
         
         // Motorcycles Management (ADDED)
         Route::prefix('motorcycles')->name('motorcycles.')->group(function () {
-            Route::get('/', function() { 
-                return view('admin.motorcycles.index'); 
-            })->name('index');
+            Route::get('/', [MotorcycleController::class, 'index'])->name('index');
+            Route::get('/create', [MotorcycleController::class, 'create'])->name('create');
+            Route::post('/store', [MotorcycleController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [MotorcycleController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [MotorcycleController::class, 'update'])->name('update');
+            Route::delete('/{id}', [MotorcycleController::class, 'destroy'])->name('destroy');
         });
         
-        // Services Management
-        Route::prefix('services')->name('services.')->group(function () {
-            Route::get('/', [AdminServiceController::class, 'index'])->name('index');
-            Route::get('/{id}', [AdminServiceController::class, 'show'])->name('show');
-            Route::put('/{id}/status', [AdminServiceController::class, 'updateStatus'])->name('update-status');
+        // Layanan Management
+        Route::prefix('layanan')->name('layanan.')->group(function () {
+            Route::get('/', [LayananController::class, 'index'])->name('index');
+            Route::get('/create', [LayananController::class, 'create'])->name('create');
+            Route::post('/store', [LayananController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [LayananController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [LayananController::class, 'update'])->name('update');
+            Route::delete('/{id}', [LayananController::class, 'destroy'])->name('destroy');
         });
+
         
         // Queue Management
         Route::prefix('queue')->name('queue.')->group(function () {
@@ -83,15 +92,26 @@ Route::middleware(['auth', 'admin'])->group(function () {
             Route::put('/{id}/update', [AdminQueueController::class, 'update'])->name('update');
         });
         
-        // Workshops Management
-        Route::prefix('workshops')->name('workshops.')->group(function () {
-            Route::get('/', [AdminWorkshopController::class, 'index'])->name('index');
-            Route::get('/create', [AdminWorkshopController::class, 'create'])->name('create');
-            Route::post('/store', [AdminWorkshopController::class, 'store'])->name('store');
-            Route::get('/{id}/edit', [AdminWorkshopController::class, 'edit'])->name('edit');
-            Route::put('/{id}', [AdminWorkshopController::class, 'update'])->name('update');
-            Route::delete('/{id}', [AdminWorkshopController::class, 'destroy'])->name('destroy');
+        // ADMIN WORKSHOPS
+Route::prefix('workshops')->name('workshops.')->group(function () {
+    Route::get('/', [AdminWorkshopController::class, 'index'])->name('index');
+    Route::get('/create', [AdminWorkshopController::class, 'create'])->name('create');
+    Route::post('/store', [AdminWorkshopController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [AdminWorkshopController::class, 'edit'])->name('edit');
+    Route::put('/{id}/update', [AdminWorkshopController::class, 'update'])->name('update');
+    Route::delete('/{id}/delete', [AdminWorkshopController::class, 'destroy'])->name('destroy');
+});
+
+        //Mekanik Management
+        Route::prefix('mekanik')->name('mekanik.')->group(function () {
+            Route::get('/', [MekanikController::class, 'index'])->name('index');
+            Route::get('/create', [MekanikController::class, 'create'])->name('create');
+            Route::post('/store', [MekanikController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [MekanikController::class, 'edit'])->name('edit');
+            Route::put('/{id}', [MekanikController::class, 'update'])->name('update');
+            Route::delete('/{id}', [MekanikController::class, 'destroy'])->name('destroy');
         });
+
         
         // Settings (ADDED)
         Route::get('/settings', function() { 

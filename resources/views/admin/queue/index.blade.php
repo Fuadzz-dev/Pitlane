@@ -146,77 +146,97 @@
         padding: 60px 20px;
         color: #888;
     }
+.table-container {
+    width: 100%;
+    padding: 15px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
 
-    .table-container {
-        overflow-x: auto;
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 16px;
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+/* Header tabel */
+table thead th {
+    background: linear-gradient(90deg, #5d6ae6, #6d5fd8, #7b4cc7);
+    color: #ffffff;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+}
 
-    table th {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 15px;
-        text-align: left;
-        font-weight: 500;
-    }
+/* Baris tabel */
+table tbody tr {
+    background: rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    color: #f0f0f0;
+}
 
-    table td {
-        padding: 15px;
-        border-bottom: 1px solid #f0f0f0;
-        color: #555;
-    }
+table tbody tr:hover {
+    background: rgba(255,255,255,0.15);
+}
 
-    table tr:hover {
-        background: #f9f9f9;
-    }
+table td {
+    padding: 15px;
+    font-size: 15px;
+}
 
-    .status-badge {
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 500;
-    }
+/* Teks link alamat */
+table a {
+    color: #9db9ff;
+    text-decoration: underline;
+}
 
-    .status-menunggu {
-        background: #fff3cd;
-        color: #856404;
-    }
+/* === Badge Status === */
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-block;
+}
 
-    .status-diproses {
-        background: #d1ecf1;
-        color: #0c5460;
-    }
+.status-menunggu {
+    background: #fff6a3;
+    color: #6d6300;
+}
+.status-diproses {
+    background: #c6f2f7;
+    color: #005a66;
+}
+.status-selesai {
+    background: #c7f4d6;
+    color: #0d6f36;
+}
+.status-batal {
+    background: #f7c6c6;
+    color: #7a1f1f;
+}
 
-    .status-selesai {
-        background: #d4edda;
-        color: #155724;
-    }
+/* Tombol Update */
+.btn-action {
+    padding: 8px 22px;
+    background: linear-gradient(90deg, #5f8dff, #6d6af9);
+    color: white;
+    border-radius: 10px;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: 0.25s ease;
+}
 
-    .status-batal {
-        background: #f8d7da;
-        color: #721c24;
-    }
-
-    .btn-action {
-        padding: 8px 20px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-
-    .btn-action:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-    }
-
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
     /* Modal Styles */
     .modal {
         display: none;

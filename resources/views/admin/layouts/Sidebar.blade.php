@@ -4,7 +4,7 @@
         <p style="color: #888; font-size: 12px; margin-top: 5px;">Admin Panel</p>
     </div>
     
-    <a href="{{ route('dashboard') }}" class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+    <a href="{{ Route('admin.dashboard') }}" class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
         📊 Dashboard
     </a>
     
@@ -16,13 +16,18 @@
         🏍️ Motorcycles
     </a>
     
-    <a href="{{ route('admin.services.index') }}" class="menu-item {{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
+    <a href="{{ route('admin.layanan.index') }}" class="menu-item {{ request()->routeIs('admin.layanan.*') ? 'active' : '' }}">
         🔧 Services
     </a>
     
     <a href="{{ route('admin.workshops.index') }}" class="menu-item {{ request()->routeIs('admin.workshops.*') ? 'active' : '' }}">
         🏪 Workshops
     </a>
+
+    <a href="{{ Route('admin.mekanik.index') }}" class="menu-item {{ request()->routeIs('admin.mekanik.*') ? 'active' : '' }}">
+        📜 Mechanic
+    </a>
+
     
     <a href="{{ route('admin.queue.index') }}" class="menu-item {{ request()->routeIs('admin.queue.*') ? 'active' : '' }}">
         📋 Queue Management
