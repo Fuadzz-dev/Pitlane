@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Workshop extends Model
 {
-    protected $fillable = ['nama_bengkel', 'alamat', 'nomor_telepon'];
+    protected $table = 'bengkel';
+    protected $primaryKey = 'bengkel_id';
+    public $timestamps = false;
+    
+    protected $fillable = ['nama_bengkel', 'alamat', 'no_hp', 'jam_operasional', 'link_alamat'];
 
     public function mekanik()
     {
-        return $this->hasMany(Mekanik::class);
+        return $this->hasMany(Mekanik::class, 'bengkel_id', 'bengkel_id');
     }
 }

@@ -75,7 +75,6 @@
         <table>
             <thead>
                 <tr>
-                    <th>No</th>
                     <th>Nama Mekanik</th>
                     <th>No HP</th>
                     <th>Bengkel</th>
@@ -85,12 +84,11 @@
             <tbody>
                 @forelse($mekanik as $mechanic)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $mechanic->nama_mekanik }}</td>
                     <td>{{ $mechanic->no_hp }}</td>
-                    <td>{{ $mechanic->bengkel->nama_bengkel ?? '-' }}</td>
+                    <td>{{ $mechanic->workshop->nama_bengkel ?? '-' }}</td>
                     <td>
-                        <a href="{{ route('admin.mekanik.edit', $mechanic->id) }}" class="btn-edit">✏️ Edit</a>
+                        <a href="{{ route('admin.mekanik.edit', $mechanic->mekanik_id) }}" class="btn-edit">✏️ Edit</a>
                     </td>
                 </tr>
                 @empty

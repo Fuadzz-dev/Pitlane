@@ -59,6 +59,22 @@
         font-size: 14px;
         color: #0055ff;
     }
+
+    .btn-delete {
+        width: 100%;
+        background: #dc2626;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .btn-delete:hover {
+        background: #b91c1c;
+    }
 </style>
 
 <div class="form-container">
@@ -104,6 +120,14 @@
 
         <button type="submit" class="btn-submit">💾 Simpan Perubahan</button>
     </form>
+
+    <form action="{{ route('admin.mekanik.destroy', $mekanik->id) }}" method="POST"
+      onsubmit="return confirm('⚠️ Yakin ingin menghapus mekanik ini? Data tidak dapat dikembalikan!')"
+      style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn-delete">🗑️ Hapus Mekanik</button>
+</form>
 </div>
 
 @endsection

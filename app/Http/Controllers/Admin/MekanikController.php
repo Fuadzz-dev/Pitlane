@@ -44,7 +44,7 @@ class MekanikController extends Controller
     // EDIT — Form edit mekanik
     public function edit($id)
     {
-        $mekanik = Mekanik::findOrFail($id);
+        $mekanik = Mekanik::where('mekanik_id', $id)->firstOrFail();
         $workshops = Workshop::all();
         return view('admin.mekanik.edit', compact('mekanik', 'workshops'));
     }
@@ -58,12 +58,12 @@ class MekanikController extends Controller
             'workshop_id' => 'required|exists:workshops,id'
         ]);
 
-        $mekanik = Mekanik::findOrFail($id);
+        $mekanik = Mekanik::where('mekanik_id', $id)->firstOrFail();
 
         $mekanik->update([
-            'nama' => $request->nama,
-            'nomor_hp' => $request->nomor_hp,
-            'workshop_id' => $request->workshop_id
+            'nama_mekanik' => $request->nama,
+            'no_hp' => $request->nomor_hp,
+            'bengkel_id' => $request->workshop_id
         ]);
 
         return redirect()->route('admin.mekanik.index')->with('success', 'Data mekanik berhasil diupdate');
@@ -72,7 +72,7 @@ class MekanikController extends Controller
     // DELETE — Hapus mekanik
     public function destroy($id)
     {
-        $mekanik = Mekanik::findOrFail($id);
+        $mekanik = Mekanik::where('mekanik_id', $id)->firstOrFail();
         $mekanik->delete();
 
         return redirect()->route('admin.mekanik.index')->with('success', 'Data mekanik berhasil dihapus');
