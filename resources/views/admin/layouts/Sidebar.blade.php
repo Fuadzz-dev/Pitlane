@@ -4,7 +4,7 @@
         <p style="color: #888; font-size: 12px; margin-top: 5px;">Admin Panel</p>
     </div>
     
-    <a href="{{ Route('admin.dashboard') }}" class="menu-item {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+    <a href="{{ Route('admin.dashboard') }}" class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
         📊 Dashboard
     </a>
     
@@ -25,12 +25,16 @@
     </a>
 
     <a href="{{ Route('admin.mekanik.index') }}" class="menu-item {{ request()->routeIs('admin.mekanik.*') ? 'active' : '' }}">
-        📜 Mechanic
+        👨‍🔧 Mechanic
     </a>
 
-    
     <a href="{{ route('admin.queue.index') }}" class="menu-item {{ request()->routeIs('admin.queue.*') ? 'active' : '' }}">
         📋 Queue Management
+    </a>
+
+    <!-- NEW: Finance Menu -->
+    <a href="{{ route('admin.finance.index') }}" class="menu-item {{ request()->routeIs('admin.finance.*') ? 'active' : '' }}">
+        💰 Laporan Keuangan
     </a>
     
     <a href="{{ route('admin.settings') }}" class="menu-item {{ request()->routeIs('admin.settings') ? 'active' : '' }}">

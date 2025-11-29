@@ -34,7 +34,6 @@
               class="profile"
               onclick="toggleProfile()" />
             <div class="profile-dropdown" id="profileDropdown">
-              <a href="{{ route('profile') }}" class="dropdown-item">Your profile</a>
               <a href="#" class="dropdown-item" onclick="handleLogout(event)">Logout</a>
             </div>
           </div>

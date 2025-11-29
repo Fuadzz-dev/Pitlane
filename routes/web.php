@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\QueueController as AdminQueueController;
 use App\Http\Controllers\Admin\WorkshopController as AdminWorkshopController;
 use App\Http\Controllers\Admin\MotorcycleController;
 use App\Http\Controllers\Admin\MekanikController;
+use App\Http\Controllers\Admin\FinanceController;
 
 // User Controllers
 use App\Http\Controllers\User\HomeController;
@@ -112,6 +113,9 @@ Route::prefix('workshops')->name('workshops.')->group(function () {
             Route::delete('/{id}', [MekanikController::class, 'destroy'])->name('destroy');
         });
 
+        // Finance/Laporan Keuangan (NEW)
+        Route::get('/finance', [FinanceController::class, 'index'])->name('finance.index');
+        Route::get('/finance/export', [FinanceController::class, 'export'])->name('finance.export');
         
         // Settings (ADDED)
         Route::get('/settings', function() { 

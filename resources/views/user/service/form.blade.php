@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PITLANE | Form Servis</title>
-    <!-- Bootstrap CSS untuk Modal -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Flatpickr CSS for Date & Time Picker -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
       * {
         box-sizing: border-box;
@@ -99,6 +100,52 @@
         height: 70px;
       }
 
+      /* Date Time Row */
+      .datetime-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .datetime-col {
+        margin-bottom: 0;
+      }
+
+      .datetime-col input {
+        margin-bottom: 0;
+      }
+
+      /* Flatpickr Custom Styling */
+      .flatpickr-calendar {
+        background: #1a1a1a;
+        border: 1px solid #333;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      }
+
+      .flatpickr-day {
+        color: #fff;
+      }
+
+      .flatpickr-day.selected {
+        background: #00bcd4;
+        border-color: #00bcd4;
+      }
+
+      .flatpickr-day:hover {
+        background: #333;
+      }
+
+      .flatpickr-months .flatpickr-month,
+      .flatpickr-current-month .flatpickr-monthDropdown-months {
+        background: #1a1a1a;
+        color: #fff;
+      }
+
+      .flatpickr-weekday {
+        color: #00bcd4;
+      }
+
       .button-group {
         display: flex;
         justify-content: space-between;
@@ -173,127 +220,13 @@
         display: inline-block;
       }
 
-      /* Success Modal Styles */
-      .modal-content {
-        background: #141414;
-        border: 2px solid #00bcd4;
+      .info-text {
+        font-size: 13px;
+        color: #999;
+        margin-top: -15px;
+        margin-bottom: 20px;
       }
 
-      .success-checkmark {
-        width: 80px;
-        height: 80px;
-        margin: 0 auto;
-      }
-
-      .success-checkmark .check-icon {
-        width: 80px;
-        height: 80px;
-        position: relative;
-        border-radius: 50%;
-        box-sizing: content-box;
-        border: 4px solid #4CAF50;
-      }
-
-      .success-checkmark .check-icon::before {
-        top: 3px;
-        left: -2px;
-        width: 30px;
-        transform-origin: 100% 50%;
-        border-radius: 100px 0 0 100px;
-      }
-
-      .success-checkmark .check-icon::after {
-        top: 0;
-        left: 30px;
-        width: 60px;
-        transform-origin: 0 50%;
-        border-radius: 0 100px 100px 0;
-        animation: rotate-circle 4.25s ease-in;
-      }
-
-      .success-checkmark .check-icon::before, 
-      .success-checkmark .check-icon::after {
-        content: '';
-        height: 100px;
-        position: absolute;
-        background: #141414;
-        transform: rotate(-45deg);
-      }
-
-      .success-checkmark .check-icon .icon-line {
-        height: 5px;
-        background-color: #4CAF50;
-        display: block;
-        border-radius: 2px;
-        position: absolute;
-        z-index: 10;
-      }
-
-      .success-checkmark .check-icon .icon-line.line-tip {
-        top: 46px;
-        left: 14px;
-        width: 25px;
-        transform: rotate(45deg);
-        animation: icon-line-tip 0.75s;
-      }
-
-      .success-checkmark .check-icon .icon-line.line-long {
-        top: 38px;
-        right: 8px;
-        width: 47px;
-        transform: rotate(-45deg);
-        animation: icon-line-long 0.75s;
-      }
-
-      .success-checkmark .check-icon .icon-circle {
-        top: -4px;
-        left: -4px;
-        z-index: 10;
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        position: absolute;
-        box-sizing: content-box;
-        border: 4px solid rgba(76, 175, 80, .5);
-      }
-
-      .success-checkmark .check-icon .icon-fix {
-        top: 8px;
-        width: 5px;
-        left: 26px;
-        z-index: 1;
-        height: 85px;
-        position: absolute;
-        transform: rotate(-45deg);
-        background-color: #141414;
-      }
-
-      @keyframes rotate-circle {
-        0% { transform: rotate(-45deg); }
-        5% { transform: rotate(-45deg); }
-        12% { transform: rotate(-405deg); }
-        100% { transform: rotate(-405deg); }
-      }
-
-      @keyframes icon-line-tip {
-        0% { width: 0; left: 1px; top: 19px; }
-        54% { width: 0; left: 1px; top: 19px; }
-        70% { width: 50px; left: -8px; top: 37px; }
-        84% { width: 17px; left: 21px; top: 48px; }
-        100% { width: 25px; left: 14px; top: 45px; }
-      }
-
-      @keyframes icon-line-long {
-        0% { width: 0; right: 46px; top: 54px; }
-        65% { width: 0; right: 46px; top: 54px; }
-        84% { width: 55px; right: 0px; top: 35px; }
-        100% { width: 47px; right: 8px; top: 38px; }
-      }
-
-      @keyframes fadeOut { 
-        to { opacity: 0; visibility: hidden; } 
-      }
-      
       @keyframes spin { 
         from { transform: rotate(0deg); } 
         to { transform: rotate(360deg); } 
@@ -313,36 +246,7 @@
   
   <body>
     <x-loadingscreen></x-loadingscreen>
-    
-    <!-- Success Modal -->
-    <div class="modal fade" id="successModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-body text-center p-5">
-            <!-- Success Animation -->
-            <div class="success-checkmark mb-4">
-              <div class="check-icon">
-                <span class="icon-line line-tip"></span>
-                <span class="icon-line line-long"></span>
-                <div class="icon-circle"></div>
-                <div class="icon-fix"></div>
-              </div>
-            </div>
-            
-            <h3 class="text-success mb-3">Pendaftaran Berhasil!</h3>
-            <p class="mb-2 text-white">Data servis Anda telah tersimpan</p>
-            <h2 class="display-5 fw-bold mb-3" style="color: #00bcd4;" id="queueNumber"></h2>
-            <p class="text-muted mb-4">Simpan nomor antrian untuk referensi</p>
-            
-            <button type="button" class="btn btn-lg px-5" style="background: #00bcd4; color: #000; font-weight: 600;" onclick="redirectToHome()">
-              OK, Mengerti
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Form -->
     <div class="form-wrapper" id="formWrapper">
       <div class="header">
         <img src="{{ asset('images/pistons.png') }}" alt="Logo" />
@@ -350,7 +254,6 @@
       </div>
       <h2>Repair & Tune Up</h2>
 
-      <!-- Alert Messages -->
       @if(session('error'))
         <div class="alert alert-error" id="alertBox">
           {{ session('error') }}
@@ -372,14 +275,13 @@
         
         <label for="bengkel">Pilih Bengkel</label>
         <select id="bengkel" name="bengkel" required>
-        <option value="">-- Pilih Bengkel --</option>
-        @foreach($bengkel as $item)
-        <option value="{{ $item->bengkel_id }}" {{ old('bengkel') == $item->bengkel_id ? 'selected' : '' }}>
-        {{ $item->nama_bengkel }}
-        </option>
-        @endforeach
+          <option value="">-- Pilih Bengkel --</option>
+          @foreach($bengkel as $item)
+            <option value="{{ $item->bengkel_id }}" {{ old('bengkel') == $item->bengkel_id ? 'selected' : '' }}>
+              {{ $item->nama_bengkel }}
+            </option>
+          @endforeach
         </select>
-        
 
         <label for="tipe">Tipe Motor</label>
         <input
@@ -399,35 +301,43 @@
           value="{{ old('plat') }}"
           required />
 
-          <label for="jenis">Jenis Perbaikan</label>
-<select id="jenis" name="jenis" required>
-  <option value="">-- Pilih Jenis Perbaikan --</option>
-  @foreach($layanan as $item)
-    <option value="{{ $item->layanan_id }}" {{ old('jenis') == $item->layanan_id ? 'selected' : '' }}>
-      {{ $item->nama_layanan }}
-    </option>
-  @endforeach
-</select>
-        {{-- <label for="jenis">Jenis Perbaikan</label>
+        <label for="jenis">Jenis Perbaikan</label>
         <select id="jenis" name="jenis" required>
           <option value="">-- Pilih Jenis Perbaikan --</option>
-          <option value="Servis rutin" {{ old('jenis') == 'Servis rutin' ? 'selected' : '' }}>Servis rutin</option>
-          <option value="Ganti oli" {{ old('jenis') == 'Ganti oli' ? 'selected' : '' }}>Ganti oli</option>
-          <option value="Ganti part mesin" {{ old('jenis') == 'Ganti part mesin' ? 'selected' : '' }}>Ganti part mesin</option>
-          <option value="Tune up" {{ old('jenis') == 'Tune up' ? 'selected' : '' }}>Tune up</option>
-          <option value="Remap ECU" {{ old('jenis') == 'Remap ECU' ? 'selected' : '' }}>Remap ECU</option>
-          <option value="Bore up" {{ old('jenis') == 'Bore up' ? 'selected' : '' }}>Bore up</option>
-          <option value="Upgrade CVT" {{ old('jenis') == 'Upgrade CVT' ? 'selected' : '' }}>Upgrade CVT</option>
-          <option value="Porting polish" {{ old('jenis') == 'Porting polish' ? 'selected' : '' }}>Porting polish</option>
-          <option value="Overhaul mesin" {{ old('jenis') == 'Overhaul mesin' ? 'selected' : '' }}>Overhaul mesin</option>
-          <option value="Servis rem" {{ old('jenis') == 'Servis rem' ? 'selected' : '' }}>Servis rem</option>
-          <option value="Ganti kampas kopling" {{ old('jenis') == 'Ganti kampas kopling' ? 'selected' : '' }}>Ganti kampas kopling</option>
-          <option value="Servis suspensi" {{ old('jenis') == 'Servis suspensi' ? 'selected' : '' }}>Servis suspensi</option>
-          <option value="Ganti aki" {{ old('jenis') == 'Ganti aki' ? 'selected' : '' }}>Ganti aki</option>
-          <option value="Servis kelistrikan" {{ old('jenis') == 'Servis kelistrikan' ? 'selected' : '' }}>Servis kelistrikan</option>
-          <option value="Servis karburator / injeksi" {{ old('jenis') == 'Servis karburator / injeksi' ? 'selected' : '' }}>Servis karburator / injeksi</option>
-          <option value="Pengecekan dyno test" {{ old('jenis') == 'Pengecekan dyno test' ? 'selected' : '' }}>Pengecekan dyno test</option>
-        </select> --}}
+          @foreach($layanan as $item)
+            <option value="{{ $item->layanan_id }}" {{ old('jenis') == $item->layanan_id ? 'selected' : '' }}>
+              {{ $item->nama_layanan }}
+            </option>
+          @endforeach
+        </select>
+
+        <!-- Date & Time Selection -->
+        <div class="datetime-row">
+          <div class="datetime-col">
+            <label for="tanggal_booking">Tanggal Booking *</label>
+            <input
+              type="text"
+              id="tanggal_booking"
+              name="tanggal_booking"
+              placeholder="Pilih tanggal..."
+              value="{{ old('tanggal_booking') }}"
+              required
+              readonly />
+          </div>
+
+          <div class="datetime-col">
+            <label for="jam_booking">Jam Booking *</label>
+            <input
+              type="text"
+              id="jam_booking"
+              name="jam_booking"
+              placeholder="Pilih jam..."
+              value="{{ old('jam_booking') }}"
+              required
+              readonly />
+          </div>
+        </div>
+        <p class="info-text">* Pilih tanggal dan jam yang sesuai dengan jadwal Anda. Bengkel akan konfirmasi ketersediaan slot.</p>
 
         <label for="catatan">Catatan Tambahan</label>
         <textarea
@@ -450,17 +360,44 @@
       </form>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/id.js"></script>
     
     <script>
-      // Tampilkan form dengan animasi
+      // Initialize Date Picker
+      flatpickr("#tanggal_booking", {
+        locale: "id",
+        minDate: "today",
+        maxDate: new Date().fp_incr(30), // 30 days from today
+        dateFormat: "Y-m-d",
+        disable: [
+          function(date) {
+            // Disable Sundays (0)
+            return (date.getDay() === 0);
+          }
+        ]
+      });
+
+      // Initialize Time Picker
+      flatpickr("#jam_booking", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true,
+        minTime: "08:00",
+        maxTime: "17:00",
+        minuteIncrement: 30,
+        defaultHour: 9
+      });
+
+      // Show form with animation
       window.addEventListener('DOMContentLoaded', function() {
         setTimeout(function() {
           document.getElementById('formWrapper').classList.add('show');
         }, 100);
 
-        // Auto hide alert after 5 seconds
         const alertBox = document.getElementById('alertBox');
         if (alertBox) {
           setTimeout(function() {
@@ -470,20 +407,6 @@
             }, 500);
           }, 5000);
         }
-
-        // Check if success message exists (from session)
-        @if(session('success'))
-          // Extract queue number from success message
-          const successMsg = "{{ session('success') }}";
-          const queueMatch = successMsg.match(/#(\d+)/);
-          if (queueMatch) {
-            document.getElementById('queueNumber').textContent = '#' + queueMatch[1];
-          }
-          
-          // Show modal
-          var successModal = new bootstrap.Modal(document.getElementById('successModal'));
-          successModal.show();
-        @endif
       });
 
       // Handle form submission
@@ -497,15 +420,9 @@
         btnText.textContent = 'Mengirim...';
       });
 
-      // Redirect function
       function redirectToHome() {
-        window.location.href = "{{ Route('user.home') }}";
+        window.location.href = "{{ route('user.home') }}";
       }
-
-      // Auto redirect when modal is closed
-      document.getElementById('successModal').addEventListener('hidden.bs.modal', function () {
-        redirectToHome();
-      });
     </script>
   </body>
 </html>
